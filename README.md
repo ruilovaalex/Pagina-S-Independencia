@@ -65,7 +65,16 @@ Tablas: `profiles`, `app_settings`, `products`, `expenses`, `incomes`, `stores` 
 - Exportar JSON y comprobar que incluye los registros guardados.
 - Confirmar que nuevos registros de usuarios están desactivados.
 
-Las pruebas locales verifican el SQL y la lógica; la conexión, Auth y persistencia del proyecto real se verifican después de conectarlo.
+### Estado comprobado el 24 de septiembre de 2026
+
+- Proyecto Supabase: `mi-independencia` (`itrvbevqzqklgwtggwgb`).
+- Las siete tablas existen y tienen RLS con la política `owner_access` para el propietario autenticado.
+- La API rechaza la lectura de productos sin iniciar sesión. El registro público está desactivado.
+- Una transacción de prueba en la base real insertó registros en las siete tablas y actualizó una compra usando el rol `authenticated`. Verificó presupuesto cero, total de compra de 19 y balance de 15. La transacción se revirtió íntegramente al terminar.
+- Las 9 pruebas automáticas y la compilación de producción pasaron.
+- Pendiente: crear la cuenta personal, comprobar inicio de sesión y guardado desde la interfaz, y completar el despliegue en Vercel al iniciar sesión en ese servicio.
+
+La cuenta del panel de Supabase es independiente de la cuenta de esta app. Para crear esta última, usar **Authentication → Users → Add user → Create new user**, elegir correo y contraseña y mantener **Auto confirm user** marcado. No publicar contraseñas ni claves secretas en este repositorio.
 
 ## Referencias
 
