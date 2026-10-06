@@ -1437,8 +1437,7 @@ export default function App() {
             {/* User */}
             <div className="flex items-center gap-2 flex-shrink-0 ml-auto">
               <button onClick={exportData} disabled={exporting} title="Descargar respaldo" aria-label="Descargar respaldo" className="p-2 rounded-lg text-muted-foreground hover:bg-muted disabled:opacity-50">{exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}</button>
-              <span className="hidden sm:inline text-xs text-muted-foreground max-w-[140px] truncate">{user.email}</span>
-              <button onClick={logout} className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors" title="Cerrar sesión">
+              <button onClick={logout} className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors" title="Bloquear mi espacio">
                 <LogOut className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">Salir</span>
               </button>

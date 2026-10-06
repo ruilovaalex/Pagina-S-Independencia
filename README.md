@@ -10,7 +10,9 @@ Requiere Node.js 22.18 o superior (probado con Node 24) y npm.
 2. Copiar `.env.example` a `.env.local` y completar los dos valores del proyecto Supabase.
 3. Ejecutar `npm run dev`.
 
-Sin configuración, la pantalla de acceso se muestra, indica que falta conectar Supabase y mantiene el inicio de sesión deshabilitado. No se conecta al proyecto original de Figma.
+La pantalla de acceso pide únicamente una contraseña compartida. `/api/access` la valida en el servidor y abre una sesión del propietario existente, conservando sus datos y las políticas RLS. El correo y la contraseña de la cuenta de Supabase no se envían al navegador. Sin configuración, el acceso permanece cerrado.
+
+El servidor de Vite sirve solo el frontend. Para probar el acceso completo en desarrollo, utilizar Vercel Dev o un despliegue de Preview con las variables privadas configuradas.
 
 Comandos:
 
@@ -27,7 +29,13 @@ Comandos:
 4. Obtener la URL y la **publishable key** del proyecto y configurar:
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_PUBLISHABLE_KEY`
-5. Iniciar sesión con la cuenta creada. Los registros quedan asociados a su usuario. El presupuesto inicial mostrado es $1500 y puede editarse, incluso a $0.
+5. Configurar en Vercel estas variables **de servidor**, sin prefijo `VITE_`:
+   - `APP_ACCESS_PASSWORD`: contraseña compartida para entrar en la página.
+   - `APP_OWNER_EMAIL`: correo de la cuenta existente de la app.
+   - `APP_OWNER_PASSWORD`: contraseña de esa cuenta, independiente de la contraseña compartida.
+6. Entrar con la contraseña compartida. Los registros siguen asociados al mismo propietario. El presupuesto inicial mostrado es $1500 y puede editarse, incluso a $0.
+
+No cambiar de propietario si ya existen datos: su UUID determina qué registros se pueden consultar. La cuenta de Supabase debe tener el correo confirmado. No hace falta una clave `service_role`.
 
 La clave publicable puede estar en el navegador; la protección la aplican las políticas RLS. No usar claves secretas ni `service_role` en variables `VITE_`. No subir `.env.local` a Git.
 
@@ -37,12 +45,14 @@ Tablas: `profiles`, `app_settings`, `products`, `expenses`, `incomes`, `stores` 
 
 1. Subir este directorio a tu repositorio de GitHub.
 2. Importarlo en Vercel, seleccionando Vite y el directorio raíz que contiene `package.json`.
-3. Configurar las dos variables anteriores en el entorno correspondiente.
+3. Configurar las dos variables públicas y las tres variables privadas anteriores en el entorno correspondiente. Mantener las privadas fuera de Git y del frontend.
 4. Compilar con `npm run build`; la carpeta de salida es `dist`.
 5. Configurar en Supabase la **Site URL** con la URL definitiva de Vercel.
 6. Al cambiar variables `VITE_`, volver a desplegar: se incorporan durante la compilación.
 
 `vercel.json` incluye la configuración de compilación, la navegación SPA y cabeceras básicas.
+
+`api/access.mjs` se despliega como función Node de Vercel. Acepta solo POST JSON del mismo origen y devuelve sesiones con `Cache-Control: no-store`. El límite de cinco intentos fallidos en diez minutos se aplica por instancia; para un límite compartido entre todas las instancias, configurar una regla para `/api/access` en Vercel Firewall. Una contraseña de cuatro cifras tiene solo 10.000 combinaciones y ofrece protección limitada.
 
 ## Cómo se cuentan los datos
 
@@ -61,7 +71,7 @@ Tablas: `profiles`, `app_settings`, `products`, `expenses`, `incomes`, `stores` 
 - Probar febrero, septiembre y diciembre; comprobar que el resumen no suma meses futuros.
 - Guardar presupuesto cero y recargar.
 - Eliminar todos los productos y recargar: no deben reaparecer.
-- Cerrar sesión, volver a entrar y abrir desde otro dispositivo.
+- Bloquear el espacio, volver a entrar con la contraseña compartida y abrir desde otro dispositivo.
 - Exportar JSON y comprobar que incluye los registros guardados.
 - Confirmar que nuevos registros de usuarios están desactivados.
 
