@@ -1438,8 +1438,8 @@ export default function App() {
                   </div>
                 </details>
               </> : <>
-                <nav aria-label="Vistas de gastos" className="flex items-center gap-1"><button onClick={() => setTab("products")} aria-current={tab === "products" ? "page" : undefined} className="rounded-lg px-2.5 py-2 text-xs whitespace-nowrap">Compras del hogar</button>
-                  <button onClick={() => setTab("dashboard")} aria-current={tab === "dashboard" ? "page" : undefined} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "dashboard" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Resumen</button>
+                <nav aria-label="Vistas de gastos" className="flex items-center gap-1">
+                  <button onClick={() => setTab("products")} aria-current={tab === "products" ? "page" : undefined} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "products" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Electrodomésticos</button>
                   <button onClick={() => setTab("expenses")} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "expenses" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Gastos</button>
                   <button onClick={() => setTab("incomes")} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "incomes" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Ingresos</button>
                   <button onClick={() => setTab("finances")} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "finances" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Finanzas</button>
