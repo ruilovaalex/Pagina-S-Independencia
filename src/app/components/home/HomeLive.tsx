@@ -7,7 +7,8 @@ import PaperCutText from './PaperCutText';
 import { getSupabase } from '../../../lib/supabase';
 import { errorMessage, sumMoney } from '../../../lib/finance';
 import type { Expense, Income, Product } from '../../types';
-import { defaultHouse, objectKind, replaceRoom, ROOMS, type RoomId } from '../../../lib/house-state';
+import { homeRepository } from '../../../lib/home-repository';
+import { validateHouse, defaultHouse, objectKind, replaceRoom, ROOMS, type RoomId } from '../../../lib/house-state';
 import '../../../styles/home.css';
 import '../../../styles/home-pastel.css';
 import '@fontsource/anton/latin-400.css';
@@ -19,7 +20,7 @@ import '../../../styles/home-collage.css';
 
 const RoomScene = lazy(() => import('./RoomScene'));
 const money = (value: number) => new Intl.NumberFormat('es-EC', { style: 'currency', currency: 'USD' }).format(value);
-const balanceKey = (userId: string) => `mi-independencia:opening-balance:${userId}`;
+
 
 function ItemIcon({ name }: { name: string }) {
   if (/sof[aá]|sill[oó]n/i.test(name)) return <Sofa />;
@@ -32,6 +33,9 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
   const [room, setRoom] = useState<RoomId>('living');
   const [house, setHouse] = useState(() => defaultHouse([]));
   const initializedHouse = useRef(false);
+  const revision = useRef<number|null>(null);
+  const [homeReady, setHomeReady] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [wallColors, setWallColors] = useState(() => Object.fromEntries(ROOMS.map(r => [r.id, r.wall])) as Record<RoomId,string>);
   const [floorColors, setFloorColors] = useState<Partial<Record<RoomId,string>>>({});
   const [decorations, setDecorations] = useState<Partial<Record<RoomId,Record<string,number>>>>({});
@@ -41,9 +45,7 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
   const [products, setProducts] = useState<Product[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [incomes, setIncomes] = useState<Income[]>([]);
-  const [openingBalance, setOpeningBalance] = useState(() => {
-    try { const value = Number(localStorage.getItem(balanceKey(userId))); return Number.isFinite(value) && value >= 0 && value <= 9999999 ? value : 0; } catch { return 0; }
-  });
+  const [openingBalance, setOpeningBalance] = useState(0);
   const [selectedId, setSelectedId] = useState('');
   const [filter, setFilter] = useState<'pending' | 'bought'>('pending');
   const [greeting, setGreeting] = useState(0);
@@ -71,8 +73,24 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
         const loadedProducts = (productResult.data as Product[]) ?? [];
         setProducts(loadedProducts);
         if (!initializedHouse.current) {
-          setHouse(defaultHouse(loadedProducts.map(p => ({id:p.id,kind:objectKind(p.name)}))));
-          initializedHouse.current = true;
+          try {
+            const [saved,prefs] = await Promise.all([homeRepository(getSupabase(),userId).load(), getSupabase().from('financial_preferences').select('opening_balance').eq('user_id',userId).maybeSingle()]);
+            if (!attached) return;
+            if (prefs.error) throw prefs.error;
+            const items = loadedProducts.map(p => ({id:p.id,kind:objectKind(p.name)}));
+            setHouse(saved ? validateHouse(saved.rooms,items) : defaultHouse(items));
+            if (saved) {
+              setWallColors(saved.wall_colors);
+              setFloorColors(saved.personalization.floorColors ?? {});
+              setDecorations(saved.personalization.decorations ?? {});
+              setCatName(saved.personalization.catName ?? '');
+              setRoom(saved.personalization.room ?? 'living');
+              revision.current = saved.revision;
+            }
+            setOpeningBalance(Number(prefs.data?.opening_balance ?? 0));
+            initializedHouse.current = true;
+            setHomeReady(true);
+          } catch (failure) { setError('No se pudo cargar el hogar: ' + errorMessage(failure)); }
         }
         setExpenses((expenseResult.data as Expense[]) ?? []);
         setIncomes((incomeResult.data as Income[]) ?? []);
@@ -97,18 +115,31 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
     else if (balanceDialogRef.current?.open) balanceDialogRef.current.close();
   }, [balanceDialog]);
 
-  function saveOpeningBalance(event: FormEvent<HTMLFormElement>) {
+  async function saveHome() {
+    if (!homeReady || saving) return;
+    setSaving(true);
+    try {
+      const saved = await homeRepository(getSupabase(),userId).save(house,wallColors,revision.current,{floorColors,decorations,catName:catName.trim(),room});
+      revision.current = saved.revision;
+      setNotice('Hogar guardado en tu cuenta.');
+      setError('');
+    } catch (failure) { setError(errorMessage(failure)); }
+    finally { setSaving(false); }
+  }
+
+  async function saveOpeningBalance(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const amount = Number(balanceDraft);
-    if (!Number.isFinite(amount) || amount < 0 || amount > 9999999) return;
+    if (!homeReady || saving || !Number.isFinite(amount) || amount < 0 || amount > 9999999) return;
+    setSaving(true);
     try {
-      localStorage.setItem(balanceKey(userId), String(Math.round(amount * 100) / 100));
+      const {error} = await getSupabase().from('financial_preferences').upsert({user_id:userId,opening_balance:Math.round(amount * 100) / 100},{onConflict:'user_id'});
+      if (error) throw error;
       setOpeningBalance(Math.round(amount * 100) / 100);
-      setNotice('Saldo inicial guardado en este navegador.');
+      setNotice('Saldo inicial guardado en tu cuenta.');
       setBalanceDialog(false);
-    } catch {
-      setError('No se pudo guardar el saldo inicial en este navegador.');
-    }
+    } catch (failure) { setError(errorMessage(failure)); }
+    finally { setSaving(false); }
   }
 
   return <section className="home-app live-home">
@@ -125,10 +156,11 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
             <label className="cat-name-field">Nombre de tu gato<input aria-label="Nombre de tu gato" maxLength={24} value={catName} onChange={e=>setCatName(e.target.value)}/></label>
           </details>
           <div className="room-stage">
-            {loading && !products.length ? <div className="room-fallback"><LoaderCircle className="animate-spin"/><p>Cargando tus objetos…</p></div> : <Suspense fallback={<div className="room-fallback"><LoaderCircle className="animate-spin"/><p>Preparando tu habitación…</p></div>}><RoomScene key={`${userId}:${room}`} storageKey={`live-memory:${room}`} layoutSource={{layout:house[room],onChange:layout=>setHouse(p=>replaceRoom(p,room,layout)),status:'Distribución temporal; el guardado en Supabase está pendiente.'}} roomId={room} wallColor={wallColors[room]} floorColor={floorColors[room]} decorations={decorations[room]} placingDecor={placingDecor} onPlaceDecor={slot=>{if(placingDecor){setDecorations(p=>({...p,[room]:{...p[room],[placingDecor]:slot}}));setPlacingDecor(undefined);}}} catName={catName.trim()||undefined} products={roomProducts} selectedId={selected?.id} greeting={greeting} onPet={() => setGreeting(value => value + 1)} balance={balance} paused={!active} onSelect={id => { setSelectedId(id); setFilter(products.find(product => product.id === id)?.bought ? 'bought' : 'pending'); }}/></Suspense>}
+            {loading && !products.length ? <div className="room-fallback"><LoaderCircle className="animate-spin"/><p>Cargando tus objetos…</p></div> : <Suspense fallback={<div className="room-fallback"><LoaderCircle className="animate-spin"/><p>Preparando tu habitación…</p></div>}><RoomScene key={`${userId}:${room}`} storageKey={`live-memory:${room}`} layoutSource={{layout:house[room],onChange:layout=>setHouse(p=>replaceRoom(p,room,layout)),status:'Pulsa Guardar hogar para conservar tus cambios.'}} roomId={room} wallColor={wallColors[room]} floorColor={floorColors[room]} decorations={decorations[room]} placingDecor={placingDecor} onPlaceDecor={slot=>{if(placingDecor){setDecorations(p=>({...p,[room]:{...p[room],[placingDecor]:slot}}));setPlacingDecor(undefined);}}} catName={catName.trim()||undefined} products={roomProducts} selectedId={selected?.id} greeting={greeting} onPet={() => setGreeting(value => value + 1)} balance={balance} paused={!active} onSelect={id => { setSelectedId(id); setFilter(products.find(product => product.id === id)?.bought ? 'bought' : 'pending'); }}/></Suspense>}
           </div>
           <div className="room-caption"><span>{selected ? `Seleccionado: ${selected.name}` : 'Toca un objeto para seleccionarlo'}</span><span><i/>+ = por comprar</span></div>
-          <p className="scene-note">Personalización temporal. Tus compras siguen en tu cuenta; el guardado del cuarto en Supabase está pendiente.</p>
+          <button className="text-action" disabled={!homeReady || saving} onClick={() => void saveHome()}>{saving ? 'Guardando…' : 'Guardar hogar'}</button>
+          <p className="scene-note">Guarda al terminar de personalizar. Quitar muebles conserva tus compras.</p>
         </section>
         <section className="money-overview" aria-label="Resumen del hogar">
           <div className="cash"><span>Dinero disponible</span><strong className={balance < 0 ? 'negative' : ''}>{money(balance)}<small>USD</small></strong><span>Saldo inicial + ingresos − gastos</span><button className="text-action" onClick={() => { setBalanceDraft(String(openingBalance)); setBalanceDialog(true); }}><Wallet size={14}/>Ingresar mi saldo inicial</button></div>
@@ -144,7 +176,7 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
         </section>
       </div>
       <p className="home-notice" role="status">{notice}</p>
-      <p className="opening-balance-note">El saldo inicial se guarda en este navegador; los ingresos y gastos vienen de tu cuenta.</p>
+      <p className="opening-balance-note">Saldo, ingresos y gastos se guardan en tu cuenta.</p>
     </main>}</HomeAtmosphere>
     <dialog ref={balanceDialogRef} className="home-dialog" onClose={() => setBalanceDialog(false)} onCancel={event => { event.preventDefault(); setBalanceDialog(false); }}>
       <form onSubmit={saveOpeningBalance}><p className="eyebrow">SALDO DE PARTIDA</p><h2>¿Con cuánto empiezas?</h2><p>Este monto se suma a tus ingresos y se resta de tus gastos para mostrar el saldo disponible.</p><label>Saldo inicial (USD)<input autoFocus required type="number" min="0" max="9999999" step="0.01" inputMode="decimal" value={balanceDraft} onChange={event => setBalanceDraft(event.target.value)}/></label><Button className="primary-action" type="submit">Guardar saldo inicial</Button><button className="cancel-action" type="button" onClick={() => setBalanceDialog(false)}>Cancelar</button></form>

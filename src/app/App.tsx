@@ -1470,7 +1470,7 @@ export default function App() {
       <HomeAtmosphere active={tab !== "home"}>{motionControl => <main key={user.id} className={tab === "home" ? "" : "max-w-screen-xl mx-auto px-4 py-6"}>
         {tab !== "home" && <div className="finance-background-control">{motionControl}</div>}
         {sessionError && <div className="mb-4"><ErrBox msg={sessionError} /></div>}
-        <div hidden={tab !== "home"}><HomeLive userId={user.id} active={tab === "home"} onManageProducts={() => setTab("products")} onOpenExpenses={() => setTab("expenses")} /></div>
+        <div hidden={tab !== "home"}><HomeLive key={user.id} userId={user.id} active={tab === "home"} onManageProducts={() => setTab("products")} onOpenExpenses={() => setTab("expenses")} /></div>
         {tab === "dashboard"  && <DashboardView  userId={user.id} />}
         {tab === "products"   && <ProductsView   userId={user.id} />}
         {tab === "expenses"   && <ExpensesView   userId={user.id} />}
