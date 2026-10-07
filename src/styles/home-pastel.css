@@ -1,0 +1,154 @@
+/* Pastel surfaces; condensed typography is reserved for headings. */
+
+.home-app {
+  --ink: #453943;
+  --muted: #756773;
+  --line: #e9dbe2;
+  --panel: #fffafc;
+  --lime: #815468;
+  background: radial-gradient(ellipse at 0% 15%, #f4d5e3, transparent 55%), radial-gradient(ellipse at 100% 70%, #dae8d8, transparent 50%), #fcf6f7;
+}
+.preview-strip { background: #efe4e9; color: #75606f; }
+.home-header { border-color: var(--line); }
+.brand-symbol { border-color: #e6cbd8; color: #956b82; background: linear-gradient(145deg, #f7e5ee, #fffafb); }
+.home-brand { font-family: 'Anton', Impact, sans-serif; font-size: 22px; font-weight: 400; letter-spacing: 0; }
+.home-brand small { font-family: 'Segoe UI', Arial, sans-serif; }
+.home-header nav button { border-radius: 12px; }
+.home-header nav button[aria-current] { color: #79526a; background: linear-gradient(120deg, #f2dce7, #f6eaf0); }
+.location-dot { background: #839e8c; }
+.home-heading h1, .finance-preview h1 {
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: clamp(34px, 4.5vw, 54px);
+  font-weight: 400;
+  letter-spacing: -.5px;
+  line-height: 1.15;
+}
+.eyebrow { color: #8a687e; }
+.primary-action, .purchase-action { background: linear-gradient(115deg, #c5dcbc, #b0cdbd); color: #345443; border-radius: 11px; box-shadow: 0 3px 10px #66877414; }
+.primary-action:hover, .purchase-action:hover { background: linear-gradient(115deg, #b7d3ad, #9ebfae); box-shadow: 0 5px 15px #66877426; }
+.primary-action, .purchase-action { transition: background 180ms, transform 180ms, box-shadow 180ms; }
+.primary-action:active, .purchase-action:active { transform: scale(.97); }
+.money-overview .cash strong { color: #496d59; }
+.money-overview strong { font-weight: 500; }
+.home-progress progress { background: #e8e5e2; accent-color: #9db7a3; }
+.home-progress progress::-webkit-progress-bar { background: #e8e5e2; }
+.home-progress progress::-webkit-progress-value { background: linear-gradient(90deg, #c1d1ba, #8fac9b); }
+.room-panel { background: linear-gradient(145deg, #f6d9e7, #f3e4eb 56%, #dce9d7); }
+.objects-panel { background: linear-gradient(155deg, #f6faf2, #e9f0e4 55%, #f7f4ed); }
+.room-panel, .objects-panel { border-radius: 20px; border-color: #ebdce4; box-shadow: 0 9px 35px #79576907; }
+.panel-heading h2 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 25px; letter-spacing: 0; }
+.room-tag { border-color: #d9c6d4; color: #786575; background: #ffffff65; }
+.room-stage { height: 430px; background: radial-gradient(ellipse at 50% 65%, #e2cad64d, transparent 65%); }
+.room-caption { color: #796774; }
+.room-caption i { border-color: #b294a6; background: #e8d8e3; }
+.object-filters button[aria-pressed=true] { color: #855d76; border-color: #b78da5; }
+.object-row { border-radius: 12px; transition: background 180ms, transform 180ms, box-shadow 180ms; }
+.object-row:hover { background: #f7edf2; transform: translateX(2px); }
+.object-row:active { transform: scale(.985); }
+.object-row.selected { background: linear-gradient(110deg, #f6e5ed, #f2edf4); box-shadow: inset 3px 0 #b68ba4; }
+.object-icon { background: linear-gradient(140deg, #e7eee4, #f2f2e8); color: #688570; border-radius: 11px; transition: transform 180ms; }
+.object-row:hover .object-icon { transform: rotate(-5deg); }
+.object-name strong { font-weight: 600; }
+.selected-object h3 { font-size: 19px; font-weight: 600; }
+.selected-object .eyebrow { color: #8a687e; }
+.balance-after strong { color: #496d59; font-weight: 600; }
+.negative { color: #a63857 !important; }
+.home-notice { color: #496d59; }
+.home-dialog { background: #fffafc; color: var(--ink); border: 1px solid #e4d3de; border-radius: 20px; }
+.home-dialog h2 { font-family: 'Anton', Impact, sans-serif; font-weight: 400; font-size: 29px; }
+.home-dialog label { color: #6a5463; }
+.home-dialog input, .home-dialog select { background: white; color: var(--ink); border-color: #d9c8d3; border-radius: 10px; color-scheme: light; }
+.home-dialog input:focus, .home-dialog select:focus { outline-color: #a27b94; }
+.home-app button:focus-visible, .home-app a:focus-visible { outline-color: #8b647e; }
+.finance-summary strong { color: #496d59; }
+.home-heading, .money-overview, .home-workspace { animation: soft-enter 420ms both; }
+.money-overview { animation-delay: 60ms; }
+.home-workspace { animation-delay: 120ms; }
+.home-dialog[open] { animation: soft-enter 180ms both; }
+.selected-object { animation: soft-enter 220ms both; }
+.room-tools { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 24px 0; }
+.pet-button { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 12px; border-radius: 20px; background: #fff9fbaa; color: #866379; font-size: 11px !important; transition: background 160ms, transform 160ms; }
+.pet-button:hover { background: #fff; transform: translateY(-2px); }
+.pet-message { font-size: 11px; color: #6c7f68; text-align: right; }
+.room-stage canvas { cursor: grab; }
+.room-stage canvas:active { cursor: grabbing; }
+.live-home .home-main { padding-top: 32px; }
+.live-home .room-panel, .live-home .objects-panel { backdrop-filter: blur(8px); }
+.live-home .room-fallback { color: #735e6d; }
+.live-home-error { margin: 0 0 16px; padding: 12px 14px; border-radius: 12px; color: #8d294c; background: #fce7ef; border: 1px solid #ecc8d5; font-size: 13px; }
+.manage-products-link { display: flex; width: calc(100% - 48px); min-height: 44px; margin: 0 24px 18px; padding: 10px 0; align-items: center; justify-content: space-between; color: #79526a; background: transparent; border-top: 1px solid #e9dbe2 !important; font-size: 12px !important; }
+.manage-products-link:hover { color: #496d59; }
+.opening-balance-note { padding: 0 5% 12px; color: #806c79; font-size: 11px; text-align: right; }
+.live-home .home-dialog { color-scheme: light; }
+.live-home .home-dialog input { color-scheme: light; }
+.live-home .room-tools { min-height: 54px; }
+@keyframes soft-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 900px) {
+  .home-workspace { grid-template-columns: 1fr; }
+  .room-stage { height: 430px; }
+}
+@media (max-width: 650px) {
+  .home-brand { font-size: 21px; }
+  .home-heading h1, .finance-preview h1 { font-size: clamp(32px, 9.3vw, 41px); letter-spacing: -.4px; }
+  .home-heading .primary-action { width: 100%; }
+  .panel-heading h2 { font-size: 23px; }
+  .room-stage { height: 335px; }
+  .room-tools { padding: 10px 18px 0; }
+  .pet-message { max-width: 150px; font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-app *, .home-app *::before, .home-app *::after { animation: none !important; transition: none !important; }
+}
+
+.home-app .room-stage { height: 490px; }
+.room-viewer { position: relative; width: 100%; height: 100%; }
+.room-canvas { width: 100%; height: calc(100% - 65px); }
+.room-viewer canvas { touch-action: pan-y !important; cursor: pointer; }
+.room-viewer.is-editing canvas { touch-action: none !important; cursor: move; }
+.room-viewer.is-rotating canvas { touch-action: none !important; cursor: grab; }
+.room-viewer.is-rotating canvas:active { cursor: grabbing; }
+.room-view-controls { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); display: flex; gap: 4px; padding: 5px; background: #fffaf0e8; border: 1px solid #d6d9c2; border-radius: 24px; box-shadow: 0 6px 22px #516c4820; white-space: nowrap; backdrop-filter: blur(10px); }
+.room-view-controls button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 7px 11px; border: 0; border-radius: 18px; background: transparent; color: #456044; font: inherit; font-size: 11px; cursor: pointer; transition: background .18s ease, transform .18s ease; }
+.room-view-controls button:hover { background: #e9eddb; transform: translateY(-1px); }
+.room-view-controls button[aria-pressed="true"] { background: #e5e9d4; }
+.room-view-controls button:focus-visible { outline: 2px solid #6b8556; outline-offset: 2px; }
+.room-rotate-hint { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); padding: 7px 12px; border-radius: 20px; background: #fffaf0eb; color: #456044; font-size: 11px; white-space: nowrap; pointer-events: none; }
+.room-viewer:focus-visible { outline: 2px solid #829b71; outline-offset: -3px; border-radius: 12px; }
+.home-app .room-stage:has(.is-editing) { height: 610px; }
+.room-viewer.is-editing .room-canvas { height: calc(100% - 228px); }
+.room-secondary-controls, .room-cat-controls { position: absolute; top: 9px; display: flex; gap: 4px; }
+.room-secondary-controls { right: 14px; }
+.room-cat-controls { left: 14px; }
+.room-cat-controls { z-index: 2; }
+.room-cat-popover { position: absolute; top: calc(100% + 8px); left: 0; display: flex; gap: 5px; padding: 7px; background: #fffaf0f5; border: 1px solid #cfd5bd; border-radius: 6px; box-shadow: 0 5px 18px #53674720; white-space: nowrap; }
+.room-secondary-controls button, .room-cat-controls button, .room-edit-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 36px; min-width: 36px; padding: 7px 10px; border: 1px solid #cfd5bd; border-radius: 16px; background: #fffaf0e8; color: #496744; font: inherit; font-size: 11px; cursor: pointer; }
+.room-secondary-controls button { padding: 7px; }
+.room-secondary-controls button:hover, .room-cat-controls button:hover, .room-edit-actions button:hover { background: #e9eddb; }
+.room-cat-controls button[aria-pressed="true"] { background: #e2e8d4; }
+.room-editor-panel { position: absolute; bottom: 75px; left: 12px; right: 12px; padding: 12px; background: #fffaf0f5; border: 1px solid #cdd4b9; border-radius: 17px; box-shadow: 0 6px 18px #53674714; }
+.room-editor-panel label { display: flex; align-items: center; gap: 10px; color: #657359; font-size: 11px; }
+.room-editor-panel select { width: 100%; min-width: 0; padding: 7px 9px; border: 1px solid #ccd5bb; border-radius: 9px; background: #f4f5e9; color: #3d5738; font: inherit; font-size: 12px; }
+.room-editor-panel p { margin: 6px 0; color: #707a62; font-size: 11px; line-height: 1.4; }
+.room-edit-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; }
+.room-nudge { display: flex; gap: 3px; }
+.room-nudge button { padding: 7px; }
+.room-edit-actions button:disabled { opacity: .4; cursor: default; }
+.room-editor-panel .room-layout-status { margin: 8px 0 0; color: #4c6a42; }
+.room-secondary-controls button:focus-visible, .room-cat-controls button:focus-visible, .room-edit-actions button:focus-visible, .room-editor-panel select:focus-visible { outline: 2px solid #6b8556; outline-offset: 2px; }
+.room-assistive-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.room-viewer:fullscreen { width: 100vw; height: 100dvh; background: radial-gradient(ellipse at 20% 10%,#f8dbe8,transparent 65%),linear-gradient(135deg,#f3e7df,#dce6d2); padding: 12px; box-sizing: border-box; }
+.room-viewer:fullscreen .room-editor-panel { max-width: 720px; margin: auto; }
+.room-viewer.is-rotating .room-rotate-hint { top: auto; bottom: 70px; max-width: calc(100% - 28px); white-space: normal; text-align: center; }
+@media (max-width: 650px) {
+  .home-app .room-stage { height: 370px; }
+  .room-caption { align-items: flex-start; gap: 10px; font-size: 10px; }
+  .room-caption span { max-width: 55%; }
+  .room-view-controls button { min-height: 44px; min-width: 44px; }
+  .room-secondary-controls button, .room-cat-controls button, .room-edit-actions button { min-height: 44px; min-width: 44px; }
+  .room-viewer.is-editing .room-canvas { height: calc(100% - 260px); }
+  .room-editor-panel { padding: 10px; }
+  .room-edit-actions button { padding: 6px; }
+  .room-view-controls { gap: 2px; max-width: calc(100% - 20px); }
+  .room-view-controls button { padding: 7px 8px; }
+}
+@media (max-width: 380px) { .room-cat-controls { top: 57px; } .room-view-controls button { gap: 4px; padding: 6px; } }

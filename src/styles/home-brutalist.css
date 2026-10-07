@@ -1,0 +1,181 @@
+/* Brutalist direction: the financial typography stays functional and legible. */
+@import './home-tokens.css';
+.home-app,.app-editorial { --line:var(--home-ink); }
+.home-app .home-header { border-bottom:2px solid var(--home-ink); }
+.home-app .preview-strip { border-bottom:1px solid var(--home-ink); background:var(--home-sage); }
+.home-app .home-header nav { gap:0; }
+.home-app .home-header nav button,.app-main-nav button { border:2px solid var(--home-ink); padding:10px 17px; background:var(--home-paper); border-radius:0; }
+.home-app .home-header nav button[aria-current],.app-main-nav button[aria-current] { background:var(--home-ink); color:#fff5dc; border-color:var(--home-ink); }
+.home-home-view .home-heading h1 { letter-spacing:-.03em; }
+.home-home-view .primary-action,.home-home-view .purchase-action,.home-app .wallet-view .primary-action { border:2px solid var(--home-ink); border-radius:0; box-shadow:4px 4px 0 var(--home-ink); background:var(--home-sage); color:var(--home-ink); }
+.home-home-view .primary-action:hover,.home-home-view .purchase-action:hover,.home-app .wallet-view .primary-action:hover { background:#dfb2c2; transform:translate(-1px,-1px); box-shadow:5px 5px 0 var(--home-ink); }
+.home-home-view .primary-action:active,.home-home-view .purchase-action:active { transform:translate(3px,3px); box-shadow:1px 1px 0 var(--home-ink); }
+.home-home-view .money-overview .cash { border:2px solid var(--home-ink); background:#dfb2c2; padding:22px; }
+.home-home-view .money-overview .cash::before,.home-home-view .selected-object::before { display:none; }
+.home-home-view .money-overview .cash strong { font-size:clamp(32px,3vw,44px); }
+.home-home-view .room-panel > .panel-heading { border-bottom:2px solid var(--home-ink); padding-bottom:13px; }
+.home-home-view .room-panel .panel-heading h2 { font-size:clamp(30px,3vw,44px); transform:none; }
+.home-home-view .room-tag { padding:5px 8px; border:1px solid var(--home-ink); border-radius:0; background:var(--home-sage); color:var(--home-ink); }
+.room-tabs { border-bottom:2px solid var(--home-ink); padding:12px 0; gap:8px; }
+.room-tabs button { border:1px solid var(--home-ink); padding:6px 12px; background:var(--home-paper); }
+.room-tabs button[aria-current] { border-color:var(--home-ink); background:#dfb2c2; color:var(--home-ink); }
+.room-number { color:inherit; font-weight:700; }
+.room-personalize { margin-inline:0; }
+.home-home-view .room-view-controls,.home-home-view .room-editor-panel,.home-home-view .room-cat-popover { border:2px solid var(--home-ink); border-radius:0; box-shadow:3px 3px 0 var(--home-ink); background:var(--home-paper-light); }
+.home-home-view .room-cat-controls > button,.home-home-view .room-secondary-controls button { border:1px solid var(--home-ink); border-radius:0; background:var(--home-paper-light); }
+.home-home-view .room-caption { border-top:2px solid var(--home-ink); }
+.home-home-view .objects-panel { border-top:3px solid var(--home-ink); padding-top:25px; }
+.home-home-view .object-row { border-bottom:1px solid var(--home-ink); }
+.home-home-view .object-row.selected { background:var(--home-sage); box-shadow:inset 3px 0 var(--home-ink); }
+.home-home-view .object-icon { border:1px solid var(--home-ink); border-radius:0; background:var(--home-paper-light); transform:none; }
+.home-home-view .selected-object { border-left:2px solid var(--home-ink); background:none; }
+.home-app .wallet-summary { border:2px solid var(--home-ink); background:var(--home-sage); }
+.home-app .wallet-total { border:1px solid var(--home-ink); background:#dfb2c2; }
+.home-app .movement-table,.home-app .category-summary { border:1px solid var(--home-ink); border-radius:0; }
+.notebook-metrics { border-block:2px solid var(--home-ink); }
+.notebook-entry,.notebook-budget { border-bottom-color:var(--home-ink); }
+.home-app .home-dialog { border:2px solid var(--home-ink); border-radius:0; box-shadow:7px 7px 0 var(--home-ink); }
+.home-app .home-dialog input,.home-app .home-dialog select,.catalog-filter select { border:1px solid var(--home-ink); border-radius:0; }
+@media(max-width:760px) {
+  .room-tabs { gap:6px; }
+  .room-tabs button { padding:6px 8px; }
+  .home-home-view .selected-object { border-left:0; border-top:2px solid var(--home-ink); }
+  .home-home-view .room-tag { font-size:8px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .home-home-view .primary-action:hover,.home-home-view .purchase-action:hover,.home-home-view .primary-action:active,.home-home-view .purchase-action:active { transform:none; }
+}
+
+.room-customize { margin:12px 0; border-bottom:1px solid var(--home-ink); padding-bottom:10px; }
+.room-customize summary { cursor:pointer; font-size:13px; font-weight:600; }
+.room-color-controls { display:flex; flex-wrap:wrap; align-items:center; gap:10px; padding-top:12px; }
+.room-color-controls label { display:flex; align-items:center; gap:8px; font-size:12px; }
+.room-color-controls input[type=color] { width:42px; height:34px; padding:2px; border:1px solid var(--home-ink); background:var(--home-paper-light); cursor:pointer; }
+.room-color-controls button { padding:8px; min-height:36px; border:1px solid var(--home-ink); background:var(--home-paper-light); font-size:12px; color:var(--home-ink); }
+.room-color-controls button[aria-pressed=true] { outline:2px solid var(--home-ink); outline-offset:2px; }
+.room-customize p { font-size:11px; margin-top:10px; }
+
+.cat-name-field { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:12px 0; font-size:12px; }
+.cat-name-field input { width:180px; max-width:100%; padding:8px; border:1px solid var(--home-ink); border-radius:0; background:var(--home-paper-light); font:inherit; }
+.room-color-controls button[aria-pressed=true] { background:var(--home-sage); }
+
+.home-app button:focus-visible,.home-app input:focus-visible,.home-app summary:focus-visible { outline:2px solid var(--home-accent); outline-offset:3px; }
+@media (pointer:coarse) {
+  .room-color-controls button,.room-tabs button,.room-view-controls button,.room-secondary-controls button,.room-cat-controls button,.room-edit-actions button { min-height:44px; min-width:44px; }
+}
+.cat-name-field input { min-height:40px; }
+
+.decor-catalog { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; max-width:420px; padding-top:10px; }
+.decor-catalog button { border:1px solid var(--home-ink); background:var(--home-paper-light); padding:5px; display:grid; justify-items:center; font-size:12px; }
+.decor-catalog button[aria-pressed=true] { background:var(--home-sage); outline:2px solid var(--home-ink); }
+.decor-catalog svg { width:100%; max-width:80px; aspect-ratio:1; }
+.decor-catalog small { font-size:10px; }
+.decor-placement-tools { display:flex; flex-wrap:wrap; align-items:center; gap:10px; font-size:12px; margin-top:10px; }
+.decor-slot { width:38px; height:38px; border:1px solid var(--home-ink); background:var(--home-paper-light); color:var(--home-ink); font-size:22px; cursor:pointer; }
+.decor-slot:disabled { opacity:.5; cursor:not-allowed; }
+.cat-floating-name { padding:3px 8px; background:var(--home-paper-light); color:var(--home-ink); border:1px solid var(--home-ink); font:600 11px sans-serif; white-space:nowrap; }
+
+.decor-slot { width:44px; height:44px; font-size:18px; }
+
+/* Quiet editorial pass: the room is the main surface, tools are marginal notes. */
+.home-home-view .room-tabs { gap:18px; border-bottom:1px solid #9ca48e; }
+.home-home-view .room-tabs button { border:0; border-bottom:2px solid transparent; background:none; padding:9px 0; }
+.home-home-view .room-tabs button[aria-current] { border-bottom-color:var(--home-accent); background:none; }
+.home-home-view .room-number { opacity:.5; margin-right:5px; }
+.home-home-view .room-panel > .panel-heading { border-bottom:0; padding-bottom:0; }
+.home-home-view .room-tag { border:0; background:none; padding:0; font-size:9px; letter-spacing:.1em; }
+.home-home-view .room-customize { border-bottom:1px solid #c5c7b3; margin:0; padding:0; }
+.home-home-view .room-customize summary { padding:11px 0; font-weight:400; color:#526553; }
+.home-home-view .room-customize[open] { padding-bottom:12px; }
+.home-home-view .room-color-controls { padding-top:0; }
+.home-home-view .decor-catalog { gap:16px; padding:0 0 8px; }
+.home-home-view .decor-catalog button { border:0; background:none; padding:5px 0; border-bottom:2px solid transparent; }
+.home-home-view .decor-catalog button[aria-pressed=true] { background:none; outline:0; border-bottom-color:var(--home-accent); }
+.home-home-view .decor-catalog button:hover { background:#e9ebda; }
+.home-home-view .decor-catalog small { color:#6c7a65; margin-top:3px; }
+.home-home-view .money-overview .cash { border:0; border-left:1px solid var(--home-accent); background:var(--home-rose); padding:18px 20px; }
+.home-home-view .room-view-controls { border:1px solid var(--home-rule); box-shadow:none; background:#f8f3e5; }
+.home-home-view .room-secondary-controls button,.home-home-view .room-cat-controls > button { border:0; background:var(--home-paper); }
+.home-home-view .room-caption { border-top:1px solid var(--home-rule); }
+.home-home-view .objects-panel { border-top:1px solid var(--home-rule); }
+.home-home-view .object-icon { border:0; background:none; }
+.home-home-view .selected-object { border-left:1px solid var(--home-rule); }
+.home-home-view .room-stage { margin-top:16px; }
+@media(max-width:760px) {
+ .home-home-view .room-tabs { gap:12px; justify-content:space-between; }
+ .home-home-view .room-tabs button { font-size:11px; }
+ .home-home-view .room-number { display:none; }
+ .home-home-view .decor-catalog { gap:10px; }
+ .home-home-view .selected-object { border-left:0; }
+}
+
+/* Room-first composition requested in the annotated review. */
+.home-main.home-home-view { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px 36px; padding-top:20px; }
+.home-home-view .room-panel { grid-column:1/-1; grid-row:1; width:100%; }
+.home-home-view .home-heading { grid-column:1; grid-row:2; padding-top:10px; }
+.home-home-view .money-overview { grid-column:2; grid-row:2; align-self:center; }
+.home-home-view .objects-panel,.home-home-view .selected-object { grid-row:3; }
+.home-home-view .home-heading h1 { font-size:clamp(32px,4vw,52px); margin-bottom:12px; }
+.home-home-view .hero-index { margin-bottom:10px; }
+.home-home-view .hero-kittens { width:72px; height:86px; }
+.home-home-view .room-stage { height:clamp(460px,66vh,700px); min-height:460px; }
+.home-home-view .room-stage:has(.is-editing) { height:auto; min-height:460px; }
+.home-home-view .room-viewer.is-editing { height:auto; }
+.home-home-view .room-canvas,.home-home-view .room-viewer.is-editing .room-canvas { height:clamp(400px,60vh,640px); }
+.home-home-view .primary-action,.home-home-view .primary-action:hover,.home-home-view .primary-action:active { border:0; border-bottom:1px solid #64745a; box-shadow:none; background:none; transform:none; padding:10px 0; min-height:44px; }
+.home-home-view .room-editor-panel { border:0; border-top:1px solid var(--home-rule); border-bottom:1px solid var(--home-rule); background:none; box-shadow:none; padding:12px 0; position:relative; }
+.home-home-view .room-edit-actions button { border:0; background:none; box-shadow:none; }
+.home-home-view .room-editor-panel select { border:0; border-bottom:1px solid var(--home-rule); background:none; }
+.home-home-view .room-editor-panel p { margin-block:8px; }
+@media(max-width:760px) {
+ .home-main.home-home-view { grid-template-columns:minmax(0,1fr); }
+ .home-home-view .room-panel { grid-column:1; grid-row:1; }
+ .home-home-view .home-heading { grid-column:1; grid-row:2; }
+ .home-home-view .money-overview { grid-column:1; grid-row:3; }
+ .home-home-view .objects-panel { grid-row:4; }
+ .home-home-view .selected-object { grid-row:5; }
+ .home-home-view .room-stage,.home-home-view .room-stage:has(.is-editing) { min-height:350px; }
+ .home-home-view .room-canvas,.home-home-view .room-viewer.is-editing .room-canvas { height:360px; }
+ .home-home-view .room-stage { height:420px; }
+}
+
+.home-main.home-home-view { display:grid; }
+.home-home-view .home-workspace { display:contents; }
+@media(max-width:760px) { .home-main.home-home-view { display:grid; } .home-home-view .home-workspace { display:contents; } }
+
+
+/* Keep editing and view tools in document flow, below the 3D surface. */
+.home-home-view .room-stage,.home-home-view .room-stage:has(.is-editing) { height:auto; }
+.home-home-view .room-viewer,.home-home-view .room-viewer.is-editing { height:auto; display:flex; flex-direction:column; gap:14px; }
+.home-home-view .room-canvas { flex:none; position:relative; }
+.home-home-view .room-editor-panel { position:static; inset:auto; transform:none; margin:0; width:100%; box-sizing:border-box; }
+.home-home-view .room-view-controls { position:static; inset:auto; transform:none; align-self:center; margin:0 0 12px; flex-wrap:wrap; max-width:100%; box-sizing:border-box; }
+.home-home-view .room-viewer:fullscreen { height:100dvh; overflow:auto; }
+.home-home-view .room-viewer:fullscreen .room-canvas { height:60dvh; }
+
+/* Catalog and contextual tools stay outside the scene, including on mobile. */
+.room-catalog-actions { display:flex; flex-wrap:wrap; gap:8px 24px; margin:8px 0; }
+.room-catalog-actions button { display:flex; align-items:center; gap:8px; background:none; color:var(--home-ink); min-height:44px; padding:0; border-bottom:1px solid var(--home-rule); }
+.room-personalization { border-bottom:1px solid var(--home-rule); }
+.room-personalization > summary,.furniture-catalog > summary { cursor:pointer; padding:14px 0; min-height:44px; color:var(--home-ink); }
+.room-personalization .room-customize { margin-left:12px; }
+.furniture-catalog > summary { display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; list-style:none; }
+.furniture-catalog > summary::after { content:'+'; }
+.furniture-catalog[open] > summary::after { content:'−'; }
+.furniture-catalog > summary > span:first-child { font-size:20px; font-weight:600; }
+.furniture-catalog > summary > span:nth-child(2) { margin-left:auto; font-size:12px; align-self:center; }
+.room-precise-tools > summary,.room-reset-tools > summary { cursor:pointer; min-height:44px; display:flex; align-items:center; padding:0 12px; }
+.room-precise-tools .room-nudge { display:flex; }
+.home-home-view .room-editor-panel select { min-height:44px; }
+.home-home-view .room-edit-actions { align-items:flex-start; }
+.room-customize summary,.decor-placement-tools button,.object-filters button { min-height:44px; }
+.home-app ::selection { background:var(--home-rose); color:var(--home-ink); }
+.home-app input { caret-color:var(--home-accent); }
+.home-app .object-price,.home-app .cash strong { font-variant-numeric:tabular-nums; }
+@media(max-width:760px) {
+  .room-catalog-actions { justify-content:space-between; gap:8px; }
+  .room-personalization[open] { background:var(--home-paper-light); padding-inline:10px; }
+  .furniture-catalog[open] { padding-bottom:env(safe-area-inset-bottom,0px); }
+  .home-home-view .room-edit-actions { gap:4px; }
+}
+

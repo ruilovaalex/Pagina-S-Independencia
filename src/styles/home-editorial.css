@@ -1,0 +1,181 @@
+/* The home view has its own composition. Financial screens keep their styles. */
+body:has(> #root > .home-app) { margin: 0; }
+.home-app:has(.home-home-view) {
+  --ink: #293f34;
+  --muted: #677268;
+  --line: #d8ded3;
+  background: #f9f8f2;
+}
+.home-app .home-header { padding-block: 18px; }
+.home-app .home-header nav button { border-radius: 3px; }
+.home-app .home-header nav button[aria-current] { background: #e6eddc; color: #344f3c; }
+.home-app .brand-symbol { border-radius: 3px; background: #ead2d6; color: #60434c; border: 0; }
+.home-app .preview-strip { background: #e9edde; color: #58604f; }
+.home-main.home-home-view {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.45fr);
+  gap: 26px 42px;
+  max-width: 1500px;
+  box-sizing: border-box;
+  padding: 38px 5% 24px;
+}
+.home-home-view .home-workspace { display: contents; }
+.home-home-view .home-heading {
+  display: block;
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  padding-top: 10px;
+}
+.home-home-view .hero-index { display: flex; justify-content: space-between; gap: 12px; color: #657260; font-size: 10px; letter-spacing: 1.6px; font-weight: 600; margin-bottom: 26px; }
+.home-home-view .home-heading h1 { font-size: clamp(60px, 6.6vw, 102px); letter-spacing: -1.6px; line-height: 1.03; margin: 0 0 23px; }
+.home-home-view .home-heading h1 span { display: block; color: var(--ink); white-space: nowrap; }
+.home-home-view .home-heading h1 span:last-child { color: #aa6176; }
+.home-home-view .hero-description { font-size: 16px; line-height: 1.55; color: #64715f; }
+.home-home-view .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 9px 20px; margin-top: 24px; }
+.home-home-view .primary-action, .home-home-view .purchase-action {
+  border-radius: 3px;
+  background: #cbdcaa;
+  color: #2c4732;
+  box-shadow: none;
+  min-height: 48px;
+}
+.home-home-view .primary-action:hover, .home-home-view .purchase-action:hover { background: #b7cf93; box-shadow: none; transform: translateY(-2px); }
+.home-home-view .hero-inventory-link { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; color: #435b43; text-decoration: none; font-size: 12px; border-bottom: 1px solid #9eac94; transition: gap .18s ease; }
+.home-home-view .hero-inventory-link:hover { gap: 14px; }
+.home-home-view .money-overview {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: end;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 20px;
+  border: 0;
+  margin: 0;
+  padding: 0 0 6px;
+}
+.home-home-view .money-overview .cash { grid-column: 1 / -1; background: #e5ebd9; padding: 18px 20px; gap: 3px; border-left: 3px solid #879d6d; }
+.home-home-view .money-overview .cash strong { font-size: 38px; color: #34553b; }
+.home-home-view .money-overview .cash > span:first-child { font-weight: 600; color: #41583e; }
+.home-home-view .money-overview .cash > span:nth-of-type(2) { font-size: 10px; }
+.home-home-view .money-overview .cash .text-action { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 4px 0; background: none; color: #435b39; text-decoration: underline; text-underline-offset: 3px; font-size: 11px; }
+.home-home-view .money-overview > div + div { padding: 0; border: 0; }
+.home-home-view .money-overview > div:last-child { border-left: 1px solid var(--line); padding-left: 20px; }
+.home-home-view .money-overview span { font-size: 11px; }
+.home-home-view .money-overview strong { font-size: 23px; }
+.home-home-view .money-overview strong small { font-size: 11px; }
+.home-home-view .home-progress progress { background: #e0e5d9; accent-color: #91aa75; }
+.home-home-view .home-progress progress::-webkit-progress-value { background: #91aa75; }
+.home-home-view .room-panel {
+  display: flex;
+  flex-direction: column;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  min-width: 0;
+  border: 0;
+  border-radius: 3px;
+  box-shadow: none;
+  backdrop-filter: none;
+  background: radial-gradient(ellipse at 55% 60%, #f5e8e1 0, #efdae0 55%, #edcbd6 100%);
+}
+.home-home-view .room-panel > .panel-heading { padding: 18px 22px 0; }
+.home-home-view .room-panel .panel-heading h2 { font: 500 12px 'Segoe UI', Arial, sans-serif; letter-spacing: .2px; }
+.home-home-view .room-tag { display: inline-flex; gap: 7px; align-items: center; border: 0; background: none; color: #6b555b; padding: 0; font-size: 9px; letter-spacing: 1px; }
+.home-home-view .room-tag i { height: 5px; width: 5px; border-radius: 50%; background: #73895f; }
+.home-home-view .room-stage { flex: 1; min-height: 540px; height: 540px; background: none; }
+.home-home-view .room-stage:has(.is-editing) { min-height: 670px; height: 670px; }
+.home-home-view .room-caption { padding: 0 22px; color: #655d60; }
+.home-home-view .scene-note { padding: 9px 22px 15px; color: #756366; font-size: 10px; max-width: none; }
+.home-home-view .room-view-controls { border-radius: 5px; box-shadow: 0 4px 14px #53634412; border-color: #c9d1b5; background: #f9faefe8; }
+.home-home-view .room-view-controls button { border-radius: 3px; font-size: 12px; min-height: 40px; }
+.home-home-view .room-view-controls button[aria-pressed=true] { background: #dce6c7; color: #2c4a31; }
+.home-home-view .room-secondary-controls button, .home-home-view .room-cat-controls button, .home-home-view .room-edit-actions button { border-radius: 4px; }
+.home-home-view .room-editor-panel { border-radius: 5px; background: #f7f9eff7; }
+.home-home-view .room-editor-panel select { border-radius: 3px; }
+.home-home-view .objects-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, .43fr);
+  gap: 0 36px;
+  background: none;
+  border: 0;
+  border-top: 1px solid #b9c4b1;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding-top: 24px;
+  overflow: visible;
+}
+.home-home-view .objects-panel > .panel-heading { grid-column: 1; padding: 0; justify-content: flex-start; gap: 15px; }
+.home-home-view .objects-panel .panel-heading h2 { font-size: 36px; text-transform: uppercase; line-height: 1.1; }
+.home-home-view .count-pill { border: 0; color: #6b7863; padding: 0; font-size: 13px; }
+.home-home-view .object-filters { grid-column: 1; margin: 15px 0 8px; gap: 26px; }
+.home-home-view .object-filters button { font-size: 12px; }
+.home-home-view .object-filters button[aria-pressed=true] { color: #365738; border-color: #7b9661; }
+.home-home-view .object-list { grid-column: 1; padding: 0; max-height: 300px; }
+.home-home-view .object-row { border-radius: 0; padding: 12px; min-height: 69px; border-bottom: 1px solid #dfe3d8; margin: 0; }
+.home-home-view .object-row.selected { background: #ecdadf; box-shadow: inset 3px 0 #af7685; }
+.home-home-view .object-row:hover { background: #f1e7e7; transform: none; }
+.home-home-view .object-icon { width: 34px; height: 34px; border-radius: 0; background: none; color: #657d4f; }
+.home-home-view .object-name strong { font-size: 14px; font-weight: 500; }
+.home-home-view .object-name small { font-size: 11px; }
+.home-home-view .object-price { font-size: 13px; }
+.home-home-view .selected-object { grid-column: 2; grid-row: 1 / span 3; border: 0; border-left: 1px solid var(--line); margin: 0; padding: 3px 0 0 30px; }
+.home-home-view .selected-object h3 { font-size: 23px; letter-spacing: -.5px; font-weight: 500; margin: 9px 0; }
+.home-home-view .selected-object p { font-size: 12px; }
+.home-home-view .selected-object .eyebrow { color: #92606b; }
+.home-home-view .balance-after { margin: 22px 0 14px; }
+.home-home-view .selected-object > small { font-size: 11px; }
+.home-home-view .manage-products-link { grid-column: 1; width: 100%; margin: 14px 0 0; border: 0 !important; color: #526b45; }
+.home-home-view .home-footer, .home-home-view > .home-notice, .home-home-view > .opening-balance-note, .home-home-view > .live-home-error { grid-column: 1 / -1; }
+.home-home-view > .live-home-error { grid-row: 1; }
+.home-home-view:has(> .live-home-error) .home-heading { grid-row: 2; }
+.home-home-view:has(> .live-home-error) .money-overview { grid-row: 3; }
+.home-home-view:has(> .live-home-error) .room-panel { grid-row: 2 / span 2; }
+.home-home-view .home-footer { margin: 0; font-size: 10px; letter-spacing: 1px; }
+.home-home-view .home-notice:empty { display: none; }
+.home-home-view .opening-balance-note { padding: 0; }
+.home-home-view [id] { scroll-margin-top: 24px; }
+.live-home .home-home-view [id] { scroll-margin-top: 90px; }
+@media (min-width: 1550px) { .home-home-view .room-stage { height: 600px; } }
+@media (max-width: 1100px) {
+  .home-main.home-home-view { gap: 24px; grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr); }
+  .home-home-view .home-heading h1 { font-size: clamp(56px, 6.5vw, 72px); }
+  .home-home-view .hero-index { font-size: 9px; letter-spacing: 1px; }
+  .home-home-view .room-stage { height: 550px; }
+  .home-home-view .objects-panel { grid-template-columns: minmax(0, 1fr) minmax(260px, .6fr); }
+}
+@media (max-width: 760px) {
+  .live-home .home-home-view [id] { scroll-margin-top: 140px; }
+  .home-main.home-home-view { display: flex; flex-direction: column; padding: 24px 20px; gap: 24px; }
+  .home-home-view .home-heading { padding-top: 0; }
+  .home-home-view .hero-index { margin-bottom: 18px; font-size: 10px; }
+  .home-home-view .home-heading h1 { font-size: clamp(60px, 10vw, 80px); }
+  .home-home-view .hero-description br { display: none; }
+  .home-home-view .hero-description { font-size: 14px; }
+  .home-home-view .hero-actions { margin-top: 17px; }
+  .home-home-view .home-heading .primary-action { width: auto; font-size: 12px; padding: 11px 14px; }
+  .home-home-view .room-panel { width: 100%; display: block; }
+  .home-home-view .room-stage { min-height: 0; height: 450px; }
+  .home-home-view .room-stage:has(.is-editing) { min-height: 0; height: 660px; }
+  .home-home-view .room-panel > .panel-heading { padding: 16px 14px 8px; }
+  .home-home-view .room-caption { padding: 0 14px; }
+  .home-home-view .scene-note { padding: 8px 14px 14px; }
+  .home-home-view .room-cat-controls { top: 9px; left: 14px; }
+  .home-home-view .room-view-controls button { min-height: 44px; }
+  .home-home-view .money-overview { align-self: stretch; gap: 18px 24px; }
+  .home-home-view .objects-panel { display: block; padding-top: 24px; }
+  .home-home-view .selected-object { border-left: 0; border-top: 1px solid var(--line); margin-top: 20px; padding: 20px 0 0; }
+  .home-home-view .objects-panel .panel-heading h2 { font-size: 31px; }
+  .home-home-view .home-footer { gap: 10px; }
+}
+@media (max-width: 420px) {
+  .home-main.home-home-view { padding: 22px 16px; }
+  .home-home-view .home-heading h1 { font-size: clamp(53px, 15.4vw, 64px); letter-spacing: -1px; }
+  .home-home-view .room-stage { height: 400px; }
+  .home-home-view .room-stage:has(.is-editing) { height: 630px; }
+  .home-home-view .hero-actions { gap: 8px 14px; }
+  .home-home-view .hero-inventory-link { font-size: 11px; }
+  .home-home-view .room-caption { font-size: 11px; }
+  .home-app .home-header { padding: 16px; gap: 14px; }
+}

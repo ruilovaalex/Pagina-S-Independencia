@@ -28,6 +28,7 @@
   },
   "include": [
     "src/main.tsx",
+    "src/home-preview.tsx",
     "src/lib/**/*.ts",
     "src/vite-env.d.ts",
     "vite.config.ts"

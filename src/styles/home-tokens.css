@@ -1,0 +1,10 @@
+/* Approved palette shared by the home surfaces. */
+.home-app, .app-editorial {
+  --home-ink: #263e32;
+  --home-paper: #f5f0df;
+  --home-paper-light: #fff7df;
+  --home-sage: #c9d9ad;
+  --home-rose: #ead6d8;
+  --home-accent: #a65375;
+  --home-rule: #a6ae97;
+}

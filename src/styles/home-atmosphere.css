@@ -1,0 +1,45 @@
+.home-app:has(.home-atmosphere) { position: relative; isolation: isolate; }
+.home-atmosphere { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.home-atmosphere > * { position: absolute; }
+.atmosphere-strawberries {
+  inset: -40px;
+  background: url('/images/strawberry-paper-pattern-v1.png') 0 0 / 620px 620px repeat;
+  opacity: .36;
+}
+@media (max-width: 760px) {
+  .atmosphere-strawberries { background-size: 440px 440px; opacity: .28; }
+}
+.atmosphere-pink, .atmosphere-green { width: min(75vw, 900px); aspect-ratio: 1; border-radius: 50%; animation: ambient-drift 24s ease-in-out infinite alternate; }
+.atmosphere-pink { left: -280px; top: 110px; background: radial-gradient(ellipse, #ebbdcb85 0, #f2d5dd60 38%, transparent 70%); }
+.atmosphere-green { right: -230px; top: 570px; background: radial-gradient(ellipse, #c0d5a78a 0, #dfebcf66 40%, transparent 70%); animation-duration: 30s; animation-delay: -9s; }
+.home-home-view .hero-description { position: relative; isolation: isolate; }
+.hero-kittens { position: absolute; right: 6px; top: -12px; width: 145px; z-index: -1; pointer-events: none; transform: rotate(7deg); animation: sticker-sway 11s ease-in-out infinite alternate; }
+.hero-kittens img { display: block; width: 100%; height: auto; }
+.atmosphere-flower { width: 170px; height: 340px; opacity: .65; transform-origin: 50% 95%; animation: flower-sway 17s ease-in-out infinite alternate; }
+.flower-right { right: -75px; top: 150px; }
+.flower-left { left: -85px; bottom: 65px; width: 200px; height: 400px; opacity: .42; animation-delay: -5s; }
+.home-atmosphere.is-still > * { animation-play-state: paused; }
+.home-app:has(.home-atmosphere.is-still) .hero-kittens { animation-play-state: paused; }
+.home-home-view .ambient-toggle { display: inline-flex; align-items: center; flex-basis: 100%; gap: 6px; min-height: 30px; padding: 0; background: none; color: #69745d; font-size: 10px; }
+.home-home-view .ambient-toggle:hover { color: #334e36; }
+.home-home-view .ambient-toggle[aria-pressed=false] { color: #8d6674; }
+.home-home-view .ambient-toggle:disabled { opacity: .75; cursor: default; }
+.finance-background-control { display:flex; justify-content:flex-end; margin-bottom:12px; }
+.finance-background-control .ambient-toggle { display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:4px 10px; background:#f5f0df; color:#416b48; font-size:12px; }
+.finance-background-control .ambient-toggle:disabled { opacity:.7; }
+.finance-catalog-view .home-atmosphere .atmosphere-flower { display:none; }
+.home-app:has(.home-atmosphere) .objects-panel { background: #f9f8f2e8; }
+@keyframes ambient-drift { from { transform: translate3d(-16px, 0, 0) scale(.94); } to { transform: translate3d(32px, 24px, 0) scale(1.08); } }
+@keyframes sticker-sway { from { transform: translate3d(0, 3px, 0) rotate(5deg); } to { transform: translate3d(0, -4px, 0) rotate(9deg); } }
+@keyframes flower-sway { from { transform: rotate(-6deg); } to { transform: rotate(4deg); } }
+@media (max-width: 1100px) and (min-width: 761px) { .hero-kittens { width: 100px; right: -8px; } }
+@media (max-width: 760px) {
+  .atmosphere-pink { width: 650px; left: -330px; top: 50px; }
+  .atmosphere-green { width: 600px; right: -330px; top: 900px; }
+  .hero-kittens { top: auto; bottom: calc(100% + 32px); right: 0; width: 94px; }
+  .flower-right { top: 950px; right: -88px; width: 150px; height: 300px; opacity: .42; }
+  .flower-left { display: none; }
+  .home-home-view .ambient-toggle { min-height: 44px; }
+}
+@media (max-width: 360px) { .hero-kittens { width: 70px; right: 0; } }
+@media (prefers-reduced-motion: reduce) { .home-atmosphere > *, .hero-kittens { animation: none !important; } }

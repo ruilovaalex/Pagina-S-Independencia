@@ -1,0 +1,66 @@
+/* Local styling for the existing Radix-based button; financial forms keep their UI. */
+.home-brand-image { display: block; width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
+.home-app .home-header nav { gap: 4px; padding: 4px; border: 1px solid #dddcd2; border-radius: 999px; background: #eeeae2; }
+.home-app .home-header nav button { border-radius: 999px; min-height: 44px; padding: 10px 20px; color: #5f6b5c; transition: background .16s, color .16s; }
+.home-app .home-header nav button[aria-current] { background: #cad9b7; color: #304d37; box-shadow: 0 1px 3px #334d3614; }
+.home-app .home-header nav button:hover { background: #e0e7d5; color: #304d37; }
+.home-app .home-header nav button[aria-current]:hover { background: #c2d3ad; }
+.home-app .home-dialog {
+  box-sizing: border-box;
+  width: min(430px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  margin-inline: auto;
+}
+.app-main-nav { padding: 4px; border: 1px solid #dddcd2; border-radius: 999px; background: #eeeae2; }
+.app-main-nav button { min-height: 44px; border-radius: 999px; color: #5f6b5c; background: transparent; box-shadow: none; }
+.app-main-nav button[aria-current] { color: #304d37; background: #cad9b7; }
+.app-main-nav button:hover { background: #e0e7d5; }
+.app-main-nav button:focus-visible { outline: 2px solid #7d4660; outline-offset: 3px; }
+.home-home-view .primary-action, .home-home-view .purchase-action {
+  display: inline-flex; align-items: center; justify-content: space-between; gap: 18px;
+  min-height: 48px; height: auto; padding: 8px 10px 8px 20px;
+  border: 1px solid #657c51; border-radius: 999px;
+  background: #cdddb5; color: #2d4836; box-shadow: 0 3px 0 #82936b;
+  font-size: 13px; font-weight: 600; line-height: 1.3;
+  transition: background .16s, box-shadow .16s, transform .16s;
+}
+.home-home-view .primary-action:hover, .home-home-view .purchase-action:hover { background: #bed29f; box-shadow: 0 3px 0 #71845b; transform: translateY(0); }
+.home-home-view .primary-action:active:not(:disabled), .home-home-view .purchase-action:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #71845b; }
+.home-home-view .primary-action:disabled, .home-app .home-dialog .primary-action:disabled { opacity: .5; box-shadow: none; cursor: default; }
+.home-home-view .primary-action .action-end { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #f8f8eb; flex-shrink: 0; }
+.home-home-view .primary-action .action-end svg { transition: transform .16s; }
+.home-home-view .primary-action:hover .action-end svg { transform: translate(1px, -1px); }
+.home-home-view .purchase-action { width: 100%; padding: 12px 18px; }
+.home-app .home-dialog .primary-action { justify-content: center; border-radius: 14px; min-height: 46px; padding: 10px 18px; }
+.home-home-view .money-overview .cash .text-action { min-height: 44px; }
+.home-home-view .room-view-controls { gap: 4px; padding: 5px; border: 1px solid #c4ccb6; border-radius: 999px; background: #fcfbf2f2; box-shadow: 0 3px 9px #53634416; }
+.home-home-view .room-view-controls button,
+.home-home-view .room-secondary-controls button,
+.home-home-view .room-cat-controls button,
+.home-home-view .room-edit-actions button { min-height: 44px; min-width: 44px; height: auto; border-radius: 999px; color: #36523c; transition: background .16s, transform .16s; }
+.home-home-view .room-view-controls button { padding: 8px 11px; }
+.home-home-view .room-view-controls button:nth-last-child(-n+2) { padding: 8px; }
+.home-home-view .room-view-controls button:hover,
+.home-home-view .room-secondary-controls button:hover,
+.home-home-view .room-cat-controls button:hover,
+.home-home-view .room-edit-actions button:hover { background: #e1e9d3; transform: none; }
+.home-home-view .room-view-controls button[aria-pressed=true],
+.home-home-view .room-cat-controls button[aria-expanded=true],
+.home-home-view .room-cat-controls button[aria-pressed=true],
+.home-home-view .room-secondary-controls button[aria-pressed=true] { background: #cbdcb8; color: #294432; }
+.home-home-view .room-view-controls button:active:not(:disabled),
+.home-home-view .room-secondary-controls button:active:not(:disabled),
+.home-home-view .room-cat-controls button:active:not(:disabled),
+.home-home-view .room-edit-actions button:active:not(:disabled) { transform: translateY(1px); background: #d5b9c5; }
+.home-home-view .room-edit-actions button:disabled { opacity: .4; transform: none; background: #f7f7ee; cursor: default; }
+.home-home-view .room-cat-popover { border-radius: 26px; }
+.home-home-view .room-editor-panel { border-radius: 16px; }
+.home-home-view .room-editor-panel select { border-radius: 10px; }
+.home-app button:focus-visible, .home-app a:focus-visible { outline: 2px solid #7d4660; outline-offset: 3px; }
+@media (max-width: 760px) {
+  .home-app .home-heading .primary-action { min-height: 48px; padding: 8px 10px 8px 18px; font-size: 13px; }
+}
+@media (max-width: 380px) {
+  .home-home-view .room-view-controls { gap: 2px; padding: 4px; }
+  .home-home-view .room-view-controls button { gap: 4px; padding: 8px; font-size: 11px; }
+}

@@ -1,0 +1,161 @@
+/* Papercut accents only: the existing Anton font receives a decorative treatment. */
+.paper-cut { display: inline-block; font-family: 'Anton', Impact, sans-serif; font-weight: 400; letter-spacing: .015em; line-height: 1.15; text-transform: uppercase; }
+.paper-readable { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.paper-ink { display: flex !important; flex-wrap: wrap; gap: .08em .22em; }
+.paper-word { display: inline-flex !important; gap: .01em; white-space: nowrap; }
+.paper-letter { display: inline-block !important; padding: .04em .02em; color: inherit; -webkit-text-stroke: .02em currentColor; }
+.cut-0 { clip-path: polygon(9% 0, 91% 4%, 100% 14%, 95% 46%, 100% 89%, 82% 100%, 0 94%, 5% 53%, 0 12%); transform: rotate(-1.4deg) skewX(-1deg); }
+.cut-1 { clip-path: polygon(0 7%, 80% 0, 100% 15%, 96% 50%, 100% 86%, 86% 100%, 7% 96%, 0 80%); transform: rotate(1.8deg) translateY(.018em); }
+.cut-2 { clip-path: polygon(14% 0, 100% 7%, 94% 48%, 100% 86%, 85% 100%, 6% 96%, 0 60%, 5% 15%); transform: rotate(-.8deg) scaleY(.97); }
+.cut-3 { clip-path: polygon(0 3%, 86% 0, 100% 13%, 94% 46%, 100% 81%, 83% 100%, 4% 93%); transform: rotate(1deg) translateY(-.014em) skewX(1deg); }
+.cut-4 { clip-path: polygon(11% 0, 94% 4%, 100% 40%, 93% 59%, 100% 88%, 80% 98%, 0 94%, 5% 46%); transform: rotate(-1.9deg); }
+.home-app, .app-editorial { --functional-font: 'Inter', 'Segoe UI', Arial, sans-serif; --ink: #263e32; --muted: #657064; --line: #ced1be; font-family: var(--functional-font); color: var(--ink); }
+.home-app [hidden], .app-editorial [hidden] { display: none !important; }
+.app-editorial { --background: #f5f0df; --foreground: #263e32; --card: #faf7ed; --card-foreground: #263e32; --border: #d3d2bf; --primary: #426148; --primary-foreground: #fff9e8; --muted: #eee9d8; --muted-foreground: #656b5d; --secondary: #ead4d8; --accent: #ece4ce; --ring: #ad657c; background: #f5f0df; }
+.home-app:has(.home-home-view), .home-app { background: #f5f0df; }
+.home-app .home-header { padding-block: 20px; border-bottom: 1px solid #56674f55; }
+.home-app .home-brand { font-family: var(--functional-font); font-size: 17px; font-weight: 700; letter-spacing: -.4px; }
+.brand-kittens { object-fit: contain; transform: rotate(-8deg); }
+.home-app .home-header nav, .app-main-nav { padding: 0; border: 0; border-radius: 0; background: none; gap: 14px; }
+.home-app .home-header nav button, .app-main-nav button { border-radius: 0; background: none; border-bottom: 2px solid transparent; padding: 10px 4px; box-shadow: none; }
+.home-app .home-header nav button[aria-current], .app-main-nav button[aria-current] { background: none; border-bottom-color: #496249; color: #263e32; box-shadow: none; }
+.home-app .home-header nav button:hover, .app-main-nav button:hover, .home-app .home-header nav button[aria-current]:hover { background: #e3e6d4; }
+.home-app .preview-strip { background: #e6e8d5; }
+.home-main.home-home-view { gap: 34px 48px; padding-top: 42px; }
+.home-home-view .home-heading h1 { font-size: clamp(58px, 6.25vw, 93px); letter-spacing: -.025em; line-height: 1.07; margin-bottom: 26px; }
+.home-home-view .home-heading h1 > .paper-cut { display: block; white-space: normal; }
+.home-home-view .home-heading h1 .paper-cut span { color: inherit; }
+.home-home-view .home-heading h1 > .paper-cut:last-child { color: #a75874; }
+.home-home-view .hero-index { align-items: center; letter-spacing: 1px; font-size: 10px; margin-bottom: 18px; }
+.hero-index > span:first-child { display: inline-flex; align-items: center; gap: 10px; }
+.hero-index .paper-index { font-size: 33px; letter-spacing: 0; color: #78866b; }
+.home-home-view .hero-description { max-width: 460px; font-family: var(--functional-font); font-size: 15px; color: #576252; }
+.home-home-view .hero-kittens { width: 139px; right: 8px; top: -18px; animation: none; transform: rotate(9deg); }
+.home-home-view .hero-actions { gap: 12px 20px; max-width: calc(100% - 145px); }
+.home-home-view .primary-action { border: 0; border-bottom: 2px solid #597349; border-radius: 0; padding: 12px 17px; box-shadow: none; background: #d3dfbe; }
+.home-home-view .primary-action:hover { box-shadow: none; background: #c6d6af; transform: rotate(-.5deg); }
+.home-home-view .primary-action:active { box-shadow: none; transform: translateY(1px); }
+.paper-special .paper-cut { font-size: 20px; letter-spacing: .015em; }
+.home-home-view .primary-action .action-end { border-radius: 0; background: none; width: 20px; height: 24px; }
+.home-home-view .purchase-action { background: #d3dfbe; border-radius: 1px; border: 0; border-bottom: 2px solid #8a9b73; box-shadow: none; min-height: 46px; padding: 12px 16px; font-family: var(--functional-font); }
+.home-home-view .purchase-action:hover, .home-home-view .purchase-action:active { box-shadow: none; transform: translateY(1px); }
+.home-home-view .money-overview .cash { background: #e2e7cf; border: 0; padding: 20px 22px; position: relative; }
+.home-home-view .money-overview .cash::before { content: ''; position: absolute; width: 76px; height: 16px; top: -8px; right: 22px; transform: rotate(3deg); background: #e7c7cd; clip-path: polygon(2% 7%, 96% 0, 100% 90%, 4% 100%, 0 72%); opacity: .85; }
+.home-home-view .money-overview .cash strong { font-family: var(--functional-font); font-size: 39px; letter-spacing: -.8px; font-weight: 600; }
+.home-home-view .room-panel { border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible; }
+.home-home-view .room-panel > .panel-heading { padding: 0 10px 0 18px; align-items: end; }
+.home-home-view .room-panel .panel-heading h2 { font-size: 31px; line-height: 1.2; transform: rotate(-1deg); color: #38553c; }
+.home-home-view .room-tag { font-family: var(--functional-font); font-size: 9px; border-bottom: 1px solid #899279; padding-bottom: 4px; letter-spacing: .7px; }
+.home-home-view .room-stage { background: none; }
+.home-home-view .room-caption { border-top: 1px solid #bdc5ad; padding-top: 12px; }
+.home-home-view .objects-panel { background: none; border-top: 1px solid #8e9b81; gap: 0 40px; }
+.home-home-view .selected-object { position:relative; background:#f9f4e5; }
+.home-home-view .selected-object::before { content:''; position:absolute; top:-9px; right:27px; width:64px; height:15px; background:#dcc4c7; opacity:.7; transform:rotate(-5deg); clip-path:polygon(4% 3%,96% 0,100% 82%,91% 100%,0 93%); pointer-events:none; }
+.home-home-view .hero-index > span:last-child { padding-bottom:5px; border-bottom:1px solid #a7b397; }
+.home-app:has(.home-atmosphere) .objects-panel { background: none; }
+.home-home-view .objects-panel .panel-heading h2 { font-size: 36px; }
+.home-home-view .object-row { background: none; border-bottom: 1px solid #d1d2bf; }
+.home-home-view .object-row.selected { background: #eedbe0; box-shadow: inset 2px 0 #ad6179; }
+.home-home-view .object-icon { background: #dfe6cf; width: 34px; height: 34px; transform: rotate(-3deg); border-radius: 0; }
+.home-home-view .object-row:hover .object-icon { transform: rotate(2deg); }
+.home-home-view .count-pill { padding: 4px 9px; background: #e8d1d7; border-radius: 1px; transform: rotate(4deg); color: #81445f; }
+.home-home-view .room-view-controls { border-radius: 4px; box-shadow: none; background: #faf7eafa; border-color: #adb79f; }
+.home-home-view .room-view-controls button, .home-home-view .room-secondary-controls button, .home-home-view .room-cat-controls button, .home-home-view .room-edit-actions button { border-radius: 2px; box-shadow: none; }
+.home-home-view .room-cat-popover { border-radius: 2px; width: 250px; max-width: calc(100vw - 70px); flex-wrap: wrap; box-shadow: 0 3px 0 #d8dcc5; }
+.home-home-view .room-editor-panel { border-radius: 2px; background: #faf7eaf5; box-shadow: none; }
+.home-home-view .room-editor-panel select { border-radius: 2px; font-family: var(--functional-font); }
+.home-app .home-dialog h2, .home-app .home-dialog input, .home-app .home-dialog select, .home-app .home-dialog button, .home-app .home-dialog p, .home-app .home-dialog label { font-family: var(--functional-font); }
+.home-app .home-dialog h2 { font-size: 23px; font-weight: 650; }
+.home-app .home-dialog { background: #faf7eb; border-radius: 3px; }
+.home-app .home-dialog input, .home-app .home-dialog select, .home-app .home-dialog .primary-action { border-radius: 3px; }
+.home-app .primary-action:not(.paper-special) { font-family: var(--functional-font); }
+.home-app .selected-object h3, .home-app .object-price, .home-app .balance-after, .home-app .money-overview, .home-app .wallet-summary, .home-app table, .home-app input, .home-app select { font-family: var(--functional-font); }
+.home-app .object-price, .home-app .balance-after strong, .home-app .money-overview strong, .home-app .wallet-summary strong { font-variant-numeric: tabular-nums; }
+.home-app .wallet-view .home-heading h1 { font-family: var(--functional-font); font-size: clamp(38px, 5vw, 65px); color: #38553c; }
+.home-app .wallet-view .home-heading h1 .paper-cut, .home-app .wallet-view .home-heading h1 .paper-cut span { color: inherit; }
+.home-app .wallet-view .home-heading p { font-family: var(--functional-font); }
+.home-app .wallet-summary { border: 0; border-top: 1px solid #aab49b; border-bottom: 1px solid #aab49b; border-radius: 0; background: #e4e8d4; padding: 23px 20px; }
+.home-app .wallet-view .primary-action { background: #d1dfbf; border-radius: 2px; box-shadow: none; color: #344e37; }
+.home-app .wallet-tabs button[aria-current] { background: none; border-radius: 0; box-shadow: inset 0 -2px #a75874; color: #81465d; }
+.home-app .wallet-total { border-radius: 0; background: #e9ced6; border: 0; color: #7e455c; }
+.home-app .category-summary, .home-app .movement-table { background: #faf7eb; border-radius: 0; border-color: #d0d2bf; }
+.home-app .wallet-toolbar input, .home-app .category-badge { border-radius: 2px; }
+.home-app .finance-cards { gap: 36px; }
+.home-app .finance-cards article { border-radius: 0; background: none; border: 0; border-top: 1px solid #9eac8d; padding: 24px 0; box-shadow: none; }
+.home-app .finance-cards h2, .home-app .finance-value { font-family: var(--functional-font); }
+.app-editorial main .font-mono { font-family: var(--functional-font); font-variant-numeric: tabular-nums; }
+.app-editorial main .bg-card { border-radius: 2px; box-shadow: none; }
+.app-editorial .page-paper-title { font-size: clamp(26px, 4vw, 40px); }
+.home-atmosphere .atmosphere-pink, .home-atmosphere .atmosphere-green { display: none; }
+.home-app .home-heading, .home-app .money-overview, .home-app .home-workspace, .home-app .selected-object { animation: none; }
+.home-home-view .home-footer { padding-top: 12px; border-top: 1px solid #ccd1ba; }
+.room-tabs { display:flex; flex-wrap:wrap; gap:5px 19px; padding:16px 18px 8px; border-bottom:1px solid #bfc7af; }
+.room-tabs button { min-height:44px; display:flex; align-items:center; gap:7px; border-bottom:2px solid transparent; font-size:12px; background:none; }
+.room-tabs button[aria-current] { border-bottom-color:#a75874; color:#81465d; }
+.room-number { color:#899479; font-size:10px; }
+.room-personalize { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:8px 18px 0; color:#69755d; font-size:11px; }
+.room-personalize > div { display:flex; }
+.room-personalize button { width:44px; height:44px; display:grid; place-items:center; }
+.room-personalize button::before { content:''; width:23px; height:23px; background:var(--swatch); border:1px solid #85916f; transform:rotate(-4deg); }
+.room-personalize button[aria-pressed=true]::before { outline:2px solid #415941; outline-offset:3px; }
+.catalog-filter { grid-column:1; display:flex; align-items:center; gap:12px; padding:8px 0; font-size:12px; }
+.catalog-filter select { min-height:44px; max-width:70%; border:1px solid #bfc7af; background:#faf7eb; padding:6px 10px; border-radius:1px; }
+.home-home-view .selected-object { grid-row:1 / span 4; }
+.object-location { color:#466247; border-bottom:1px solid #c5cbb6; padding-bottom:10px; }
+.notebook-planner { color:#263e32; font-family:var(--functional-font); }
+.notebook-heading, .notebook-row-heading, .notebook-budget { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+.notebook-heading h2 { font-size:clamp(24px,3vw,38px); margin:18px 0; }
+.notebook-metrics { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:25px; padding:23px 0; border-block:1px solid #aab69b; }
+.notebook-metrics > div { display:flex; flex-direction:column; gap:8px; }
+.notebook-metrics strong { font-size:32px; font-weight:600; letter-spacing:-.6px; font-variant-numeric:tabular-nums; }
+.notebook-metrics small, .notebook-explainer { font-size:12px; line-height:1.6; color:#65715e; }
+.notebook-planner h3 { font-size:18px; font-weight:600; }
+.notebook-budget { padding:25px 0; border-bottom:1px solid #c3cbb5; }
+.notebook-budget p { margin-top:7px; font-size:13px; }
+.notebook-columns { display:grid; grid-template-columns:1fr 1fr; gap:42px; padding:28px 0; }
+.notebook-row-heading { margin-bottom:12px; }
+.notebook-entry { padding:18px 0; border-bottom:1px solid #c3cbb5; }
+.notebook-entry > div { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.notebook-entry h4 { font-weight:600; overflow-wrap:anywhere; }
+.notebook-entry p { font-size:13px; margin:8px 0; }
+.notebook-entry progress { width:100%; height:5px; margin:7px 0; accent-color:#809567; }
+.notebook-entry small { color:#65715e; }
+.notebook-empty { padding:28px 0; color:#65715e; font-size:13px; }
+.notebook-alert { background:#edd8db; padding:14px 18px; border-left:2px solid #a75874; margin:15px 0; font-size:13px; }
+@media (max-width:760px) {
+  .room-tabs { padding-inline:0; gap:4px 10px; }
+  .room-tabs button { font-size:11px; }
+  .room-personalize { margin-inline:0; }
+  .notebook-metrics, .notebook-columns { grid-template-columns:1fr; gap:24px; }
+  .notebook-metrics > div + div { border-top:1px solid #c3cbb5; padding-top:18px; }
+}
+@media (max-width: 1100px) and (min-width: 761px) {
+  .home-main.home-home-view { gap: 26px; }
+  .home-home-view .home-heading h1 { font-size: clamp(46px, 5.8vw, 64px); }
+  .home-home-view .hero-kittens { width: 93px; right: -4px; top: -6px; }
+  .home-home-view .hero-actions { max-width: calc(100% - 100px); }
+}
+@media (max-width: 760px) {
+  .home-main.home-home-view { gap: 32px; padding: 27px 20px; }
+  .home-home-view .home-heading h1 { font-size: clamp(53px, 9.5vw, 75px); }
+  .home-home-view .hero-kittens { top: auto; bottom: calc(100% + 18px); width: 81px; right: 0; }
+  .home-home-view .hero-actions { max-width: none; }
+  .home-home-view .hero-description { font-size: 14px; }
+  .home-home-view .home-heading .primary-action { padding: 12px 16px; }
+  .home-home-view .room-panel > .panel-heading { padding: 0 0 7px; }
+  .home-home-view .room-panel .panel-heading h2 { font-size: 28px; }
+  .home-home-view .room-caption { padding-inline: 0; }
+  .home-home-view .scene-note { padding-inline: 0; }
+  .home-home-view .room-cat-controls { left: 2px; }
+  .home-home-view .room-secondary-controls { right: 2px; }
+}
+@media (max-width: 380px) {
+  .home-main.home-home-view { padding-inline: 16px; }
+  .home-home-view .home-heading h1 { font-size: 49px; }
+  .home-home-view .hero-kittens { width: 61px; }
+  .home-home-view .room-panel .panel-heading h2 { font-size: 24px; }
+  .home-home-view .room-view-controls button { padding-inline: 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-home-view .primary-action:hover, .home-home-view .primary-action:active { transform: none; }
+}

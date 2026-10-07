@@ -17,6 +17,11 @@ function figmaAssetResolver() {
 }
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: { app: path.resolve(__dirname, 'index.html'), homePreview: path.resolve(__dirname, 'home-preview.html') },
+    },
+  },
   plugins: [
     figmaAssetResolver(),
     // The React and Tailwind plugins are both required for Make, even if

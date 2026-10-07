@@ -1,5 +1,5 @@
 export type Priority = "P1" | "P2" | "P3";
-export type AppTab = "dashboard" | "products" | "expenses" | "incomes" | "finances" | "stores" | "searches";
+export type AppTab = "home" | "dashboard" | "products" | "expenses" | "incomes" | "finances" | "stores" | "searches";
 export type SortDir = "asc" | "desc";
 
 export interface Product {

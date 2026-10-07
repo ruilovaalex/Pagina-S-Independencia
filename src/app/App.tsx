@@ -2,6 +2,9 @@ import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import type { User } from "@supabase/supabase-js";
 import { getSupabase, isSupabaseConfigured } from "../lib/supabase";
 import AuthScreen from "./components/AuthScreen";
+import HomeLive from "./components/home/HomeLive";
+import HomeAtmosphere from "./components/home/HomeAtmosphere";
+import PaperCutText from "./components/home/PaperCutText";
 import { today, currentMonth, monthRange, recentMonthsRange, isInMonth, sumMoney, productTotals, validMoney, safeUrl, errorMessage } from "../lib/finance";
 import { downloadBackup } from "../lib/backup";
 import {
@@ -9,7 +12,7 @@ import {
   ExternalLink, X, ChevronUp, ChevronDown, ChevronsUpDown,
   MapPin, Globe, LogOut, DollarSign, TrendingUp, TrendingDown,
   ShoppingBag, Eye, EyeOff, Loader2, AlertCircle, CheckCircle2,
-  Wallet, PiggyBank, BarChart3, Calendar, Heart, Download,
+  Wallet, PiggyBank, BarChart3, Calendar, Download, Home,
 } from "lucide-react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -1336,18 +1339,8 @@ function Spinner() {
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
-const TABS: { id: AppTab; label: string; short: string; icon: React.ReactNode }[] = [
-  { id: "dashboard",  label: "Dashboard",       short: "Dashboard",  icon: <LayoutDashboard className="w-4 h-4" /> },
-  { id: "products",   label: "Electrodomésticos", short: "Electrod.", icon: <Package className="w-4 h-4" /> },
-  { id: "expenses",   label: "Gastos",           short: "Gastos",     icon: <TrendingDown className="w-4 h-4" /> },
-  { id: "incomes",    label: "Ingresos",         short: "Ingresos",   icon: <TrendingUp className="w-4 h-4" /> },
-  { id: "finances",   label: "Finanzas",         short: "Finanzas",   icon: <PiggyBank className="w-4 h-4" /> },
-  { id: "stores",     label: "Tiendas",          short: "Tiendas",    icon: <Store className="w-4 h-4" /> },
-  { id: "searches",   label: "Búsqueda precios", short: "Precios",    icon: <Search className="w-4 h-4" /> },
-];
-
 const TAB_TITLES: Record<AppTab, string> = {
-  dashboard: "Dashboard", products: "Electrodomésticos", expenses: "Gastos diarios",
+  home: "Mi hogar", dashboard: "Resumen financiero", products: "Electrodomésticos", expenses: "Gastos diarios",
   incomes: "Ingresos", finances: "Finanzas & Ahorros", stores: "Tiendas en Cuenca",
   searches: "Búsqueda de precios",
 };
@@ -1355,7 +1348,7 @@ const TAB_TITLES: Record<AppTab, string> = {
 export default function App() {
   const [user, setUser]   = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab]     = useState<AppTab>("dashboard");
+  const [tab, setTab]     = useState<AppTab>("home");
   const [sessionError, setSessionError] = useState("");
   const [exporting, setExporting] = useState(false);
 
@@ -1379,7 +1372,7 @@ export default function App() {
     setSessionError("");
     const { error } = await getSupabase().auth.signOut({ scope: "local" });
     if (error) { setSessionError(errorMessage(error)); return; }
-    setUser(null); setTab("dashboard");
+    setUser(null); setTab("home");
   };
 
   const exportData = async () => {
@@ -1406,33 +1399,53 @@ export default function App() {
   if (!user) return <><AuthScreen />{sessionError && <div className="fixed bottom-4 inset-x-4 mx-auto max-w-sm"><ErrBox msg={sessionError} /></div>}</>;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background app-editorial home-app">
       {/* Header */}
       <header className="sticky top-0 z-30 bg-card/95 backdrop-blur border-b border-border">
         <div className="max-w-screen-xl mx-auto px-4">
           <div className="flex flex-wrap items-center min-h-16 gap-3 py-3 md:py-0">
             {/* Logo */}
             <div className="flex items-center gap-2.5 flex-shrink-0">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-sm">
-                <Heart className="text-primary-foreground w-4 h-4" />
-              </div>
+              <img src="/images/vintage-kittens.png" width="36" height="36" className="brand-kittens shrink-0" alt="" draggable={false}/>
               <div className="hidden sm:block">
                 <p className="text-sm font-semibold leading-none">Mi Independencia</p>
                 <p className="text-[11px] text-muted-foreground leading-none mt-0.5">Cuenca, Ecuador</p>
               </div>
             </div>
 
-            {/* Tabs */}
-            <nav aria-label="Secciones" className="flex items-center gap-1 order-3 w-full md:order-none md:w-auto md:flex-1 overflow-x-auto pb-1 md:pb-0">
-              {TABS.map(t => (
-                <button key={t.id} onClick={() => setTab(t.id)}
-                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all flex-shrink-0 ${tab === t.id ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-muted"}`}>
-                  {t.icon}
-                  <span className="hidden md:inline">{t.label}</span>
-                  <span className="inline md:hidden">{t.short}</span>
+            {/* Two main sections; the existing finance views stay nested under Gastos. */}
+            <div className="order-3 flex w-full flex-wrap items-center gap-2 md:order-none md:w-auto md:flex-1">
+              <nav aria-label="Secciones principales" className="app-main-nav flex items-center gap-1">
+                <button onClick={() => setTab("home")} aria-current={!(["dashboard", "products", "expenses", "incomes", "finances"] as AppTab[]).includes(tab) ? "page" : undefined}
+                  className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium whitespace-nowrap transition-all ${!(["dashboard", "products", "expenses", "incomes", "finances"] as AppTab[]).includes(tab) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-muted"}`}>
+                  <Home className="h-4 w-4"/><span>Mi hogar</span>
                 </button>
-              ))}
-            </nav>
+                <button onClick={() => setTab("expenses")} aria-current={(["dashboard", "products", "expenses", "incomes", "finances"] as AppTab[]).includes(tab) ? "page" : undefined}
+                  className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium whitespace-nowrap transition-all ${(["dashboard", "products", "expenses", "incomes", "finances"] as AppTab[]).includes(tab) ? "bg-primary text-primary-foreground shadow-sm" : "text-muted-foreground hover:text-foreground hover:bg-muted"}`}>
+                  <TrendingDown className="h-4 w-4"/><span>Gastos</span>
+                </button>
+              </nav>
+              {!(["dashboard", "products", "expenses", "incomes", "finances"] as AppTab[]).includes(tab) ? <>
+                <nav aria-label="Opciones del hogar" className="flex items-center gap-1">
+                  <button onClick={() => setTab("home")} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "home" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Mi espacio</button>
+                  <button onClick={() => setTab("products")} className={`flex items-center gap-1 rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "products" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}><Package className="h-3.5 w-3.5"/>Electrodomésticos</button>
+                </nav>
+                <details className="relative">
+                  <summary className="cursor-pointer list-none rounded-lg px-2.5 py-2 text-xs text-muted-foreground hover:bg-muted">Más</summary>
+                  <div className="absolute left-0 top-full z-50 mt-1 min-w-44 rounded-xl border border-border bg-card p-1 shadow-lg">
+                    <button onClick={() => setTab("stores")} className="block w-full rounded-lg px-3 py-2 text-left text-xs hover:bg-muted">Tiendas</button>
+                    <button onClick={() => setTab("searches")} className="block w-full rounded-lg px-3 py-2 text-left text-xs hover:bg-muted">Búsqueda de precios</button>
+                  </div>
+                </details>
+              </> : <>
+                <nav aria-label="Vistas de gastos" className="flex items-center gap-1"><button onClick={() => setTab("products")} aria-current={tab === "products" ? "page" : undefined} className="rounded-lg px-2.5 py-2 text-xs whitespace-nowrap">Compras del hogar</button>
+                  <button onClick={() => setTab("dashboard")} aria-current={tab === "dashboard" ? "page" : undefined} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "dashboard" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Resumen</button>
+                  <button onClick={() => setTab("expenses")} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "expenses" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Gastos</button>
+                  <button onClick={() => setTab("incomes")} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "incomes" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Ingresos</button>
+                  <button onClick={() => setTab("finances")} className={`rounded-lg px-2.5 py-2 text-xs whitespace-nowrap ${tab === "finances" ? "text-foreground font-medium" : "text-muted-foreground hover:bg-muted"}`}>Finanzas</button>
+                </nav>
+              </>}
+            </div>
 
             {/* User */}
             <div className="flex items-center gap-2 flex-shrink-0 ml-auto">
@@ -1447,15 +1460,17 @@ export default function App() {
       </header>
 
       {/* Page title */}
-      <div className="border-b border-border bg-card/50">
+      {tab !== "home" && <div className="border-b border-border bg-card/50">
         <div className="max-w-screen-xl mx-auto px-4 py-3">
-          <h1 className="text-lg font-semibold text-foreground">{TAB_TITLES[tab]}</h1>
+          <h1 className="text-lg font-semibold text-foreground page-paper-title"><PaperCutText text={TAB_TITLES[tab]}/></h1>
         </div>
-      </div>
+      </div>}
 
       {/* Content */}
-      <main key={user.id} className="max-w-screen-xl mx-auto px-4 py-6">
+      <HomeAtmosphere active={tab !== "home"}>{motionControl => <main key={user.id} className={tab === "home" ? "" : "max-w-screen-xl mx-auto px-4 py-6"}>
+        {tab !== "home" && <div className="finance-background-control">{motionControl}</div>}
         {sessionError && <div className="mb-4"><ErrBox msg={sessionError} /></div>}
+        <div hidden={tab !== "home"}><HomeLive userId={user.id} active={tab === "home"} onManageProducts={() => setTab("products")} onOpenExpenses={() => setTab("expenses")} /></div>
         {tab === "dashboard"  && <DashboardView  userId={user.id} />}
         {tab === "products"   && <ProductsView   userId={user.id} />}
         {tab === "expenses"   && <ExpensesView   userId={user.id} />}
@@ -1463,7 +1478,7 @@ export default function App() {
         {tab === "finances"   && <FinancesView   userId={user.id} />}
         {tab === "stores"     && <StoresView     userId={user.id} />}
         {tab === "searches"   && <SearchesView   userId={user.id} />}
-      </main>
+      </main>}</HomeAtmosphere>
     </div>
   );
 }
