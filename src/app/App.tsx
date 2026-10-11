@@ -308,7 +308,7 @@ function ProductModal({ initial, onSave, onClose }: {
             </div>
             <label className="flex items-center gap-2 cursor-pointer select-none pb-2 flex-shrink-0">
               <input type="checkbox" checked={form.bought} onChange={e => set("bought", e.target.checked)} className="w-4 h-4 accent-primary" />
-              <span className="text-sm font-medium">Comprado</span>
+              <span className="text-sm font-medium">Ya lo compré / ya lo tengo</span>
             </label>
           </div>
           <div className="grid grid-cols-2 gap-3">

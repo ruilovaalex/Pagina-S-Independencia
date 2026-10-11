@@ -136,6 +136,20 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
     setNotice('Toca un espacio libre del suelo para colocar tu mueble. Después pulsa Guardar hogar.');
   }
 
+  async function useOwnedFurniture(product:Product) {
+    if(saving) return;
+    setSaving(true);
+    try {
+      const {data,error} = await getSupabase().from('products').update({bought:true,paid_price:product.paid_price ?? product.estimated_price}).eq('id',product.id).eq('user_id',userId).select('*').single();
+      if(error) throw error;
+      setProducts(previous=>previous.map(item=>item.id===product.id ? data as Product : item));
+      setFurnitureId(product.id);
+      setNotice('Mueble marcado como comprado. No se añadió ningún gasto.');
+      setError('');
+    } catch(failure) { setError(errorMessage(failure)); }
+    finally { setSaving(false); }
+  }
+
   async function saveHome() {
     if (!homeReady || saving) return;
     setSaving(true);
@@ -203,7 +217,9 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
     <dialog ref={furnitureDialogRef} className="home-dialog" onClose={()=>setFurnitureDialog(false)} onCancel={()=>setFurnitureDialog(false)}>
       <form onSubmit={chooseFurniture}>
         <p className="eyebrow">YA ES TUYO</p><h2>Un lugar para tu mueble</h2>
-        {bought.length ? <><label>Mueble comprado<select required value={furnitureId} onChange={event=>setFurnitureId(event.target.value)}>{bought.map(product=><option key={product.id} value={product.id}>{product.name}</option>)}</select></label><label>Habitación<select value={furnitureRoom} onChange={event=>setFurnitureRoom(event.target.value as RoomId)}>{ROOMS.map(entry=><option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></label><p>Elige dónde ponerlo tocando el suelo. Moverlo no registra otro gasto.</p><Button type="submit">Colocar en la habitación</Button></> : <><p>Todavía no tienes muebles marcados como comprados. Registra los que ya tienes en tu catálogo.</p><Button type="button" onClick={()=>{setFurnitureDialog(false);onManageProducts();}}>Registrar un mueble</Button></>}
+        {error && <p role="alert">{error}</p>}
+        {bought.length ? <><label>Mueble comprado<select required value={furnitureId} onChange={event=>setFurnitureId(event.target.value)}>{bought.map(product=><option key={product.id} value={product.id}>{product.name}</option>)}</select></label><label>Habitación<select value={furnitureRoom} onChange={event=>setFurnitureRoom(event.target.value as RoomId)}>{ROOMS.map(entry=><option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></label><p>Elige dónde ponerlo tocando el suelo. Moverlo no registra otro gasto.</p><Button type="submit" disabled={saving}>Colocar en la habitación</Button></> : <><p>{pending.length ? 'Tus muebles están registrados como por comprar. Si ya tienes uno, márcalo aquí como comprado.' : 'Todavía no tienes muebles registrados. Añade los que ya tienes en tu catálogo.'}</p><Button type="button" onClick={()=>{setFurnitureDialog(false);onManageProducts();}}>Abrir catálogo</Button></>}
+        {!!pending.length && <details open={!bought.length}><summary>Registrados como por comprar ({pending.length})</summary><p>Usa «Ya lo tengo» solo si ya es tuyo. Se marcará como comprado con su precio registrado, sin añadir otro gasto.</p>{pending.map(product=><div key={product.id} className="owned-furniture-row"><span>{product.name}</span><button className="text-action" type="button" disabled={saving} onClick={()=>void useOwnedFurniture(product)}>Ya lo tengo</button></div>)}</details>}
         <button className="cancel-action" type="button" onClick={()=>setFurnitureDialog(false)}>Cancelar</button>
       </form>
     </dialog>
