@@ -47,6 +47,11 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
   const [incomes, setIncomes] = useState<Income[]>([]);
   const [openingBalance, setOpeningBalance] = useState(0);
   const [selectedId, setSelectedId] = useState('');
+  const [furnitureDialog,setFurnitureDialog] = useState(false);
+  const furnitureDialogRef = useRef<HTMLDialogElement>(null);
+  const [furnitureId,setFurnitureId] = useState('');
+  const [furnitureRoom,setFurnitureRoom] = useState<RoomId>('living');
+  const [placementRequest,setPlacementRequest] = useState(0);
   const [filter, setFilter] = useState<'pending' | 'bought'>('pending');
   const [greeting, setGreeting] = useState(0);
   const [balanceDialog, setBalanceDialog] = useState(false);
@@ -115,6 +120,22 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
     else if (balanceDialogRef.current?.open) balanceDialogRef.current.close();
   }, [balanceDialog]);
 
+  useEffect(()=>{
+    if(furnitureDialog) furnitureDialogRef.current?.showModal();
+    else if(furnitureDialogRef.current?.open) furnitureDialogRef.current.close();
+  },[furnitureDialog]);
+
+  function chooseFurniture(event:FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if(!products.some(product=>product.id===furnitureId && product.bought)) return;
+    setRoom(furnitureRoom);
+    setSelectedId(furnitureId);
+    setFilter('bought');
+    setPlacementRequest(value=>value+1);
+    setFurnitureDialog(false);
+    setNotice('Toca un espacio libre del suelo para colocar tu mueble. Después pulsa Guardar hogar.');
+  }
+
   async function saveHome() {
     if (!homeReady || saving) return;
     setSaving(true);
@@ -150,13 +171,14 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
         <section className="room-panel" aria-labelledby="live-room-title">
           <div className="panel-heading"><h2 id="live-room-title"><PaperCutText text={currentRoom.name}/></h2><span className="room-tag"><i/>MI ESPACIO · 3D</span></div>
           <nav className="room-tabs" aria-label="Habitaciones">{ROOMS.map(r => <button key={r.id} aria-current={room === r.id ? 'page' : undefined} onClick={() => {setRoom(r.id);setPlacingDecor(undefined);}}>{r.name}</button>)}</nav>
+          <button className="text-action room-add-furniture" disabled={loading} onClick={()=>{setFurnitureRoom(room);setFurnitureId(bought[0]?.id ?? '');setFurnitureDialog(true);}}><Plus size={16}/>Añadir mueble comprado</button>
           <details className="room-personalization"><summary>Personalizar habitación</summary>
             <div className="room-color-controls"><label>Paredes<input aria-label="Color de paredes" type="color" value={wallColors[room]} onChange={e=>setWallColors(p=>({...p,[room]:e.target.value}))}/></label><label>Suelo<input aria-label="Color del suelo" type="color" value={floorColors[room]??'#c7d2b2'} onChange={e=>setFloorColors(p=>({...p,[room]:e.target.value}))}/></label></div>
             <details className="room-customize"><summary>Decoración gratis</summary><div className="decor-catalog">{[{id:'plant',name:'Planta'},{id:'books',name:'Libros'},{id:'art',name:'Cuadro'},{id:'vase',name:'Florero'}].map(d=><button key={d.id} aria-pressed={placingDecor===d.id} onClick={()=>setPlacingDecor(d.id)}><Box size={24}/><span>{d.name}</span><small>Gratis</small></button>)}</div>{placingDecor&&<div className="decor-placement-tools"><span>Elige un recuadro en la pared.</span><button onClick={()=>setPlacingDecor(undefined)}>Cancelar</button><button onClick={()=>{setDecorations(p=>{const next={...p[room]};delete next[placingDecor];return {...p,[room]:next};});setPlacingDecor(undefined);}}>Devolver al catálogo</button></div>}</details>
             <label className="cat-name-field">Nombre de tu gato<input aria-label="Nombre de tu gato" maxLength={24} value={catName} onChange={e=>setCatName(e.target.value)}/></label>
           </details>
           <div className="room-stage">
-            {loading && !products.length ? <div className="room-fallback"><LoaderCircle className="animate-spin"/><p>Cargando tus objetos…</p></div> : <Suspense fallback={<div className="room-fallback"><LoaderCircle className="animate-spin"/><p>Preparando tu habitación…</p></div>}><RoomScene key={`${userId}:${room}`} storageKey={`live-memory:${room}`} layoutSource={{layout:house[room],onChange:layout=>setHouse(p=>replaceRoom(p,room,layout)),status:'Pulsa Guardar hogar para conservar tus cambios.'}} roomId={room} wallColor={wallColors[room]} floorColor={floorColors[room]} decorations={decorations[room]} placingDecor={placingDecor} onPlaceDecor={slot=>{if(placingDecor){setDecorations(p=>({...p,[room]:{...p[room],[placingDecor]:slot}}));setPlacingDecor(undefined);}}} catName={catName.trim()||undefined} products={roomProducts} selectedId={selected?.id} greeting={greeting} onPet={() => setGreeting(value => value + 1)} balance={balance} paused={!active} onSelect={id => { setSelectedId(id); setFilter(products.find(product => product.id === id)?.bought ? 'bought' : 'pending'); }}/></Suspense>}
+            {loading && !products.length ? <div className="room-fallback"><LoaderCircle className="animate-spin"/><p>Cargando tus objetos…</p></div> : <Suspense fallback={<div className="room-fallback"><LoaderCircle className="animate-spin"/><p>Preparando tu habitación…</p></div>}><RoomScene key={`${userId}:${room}`} placementRequest={placementRequest} storageKey={`live-memory:${room}`} layoutSource={{layout:house[room],onChange:layout=>setHouse(p=>replaceRoom(p,room,layout)),status:'Pulsa Guardar hogar para conservar tus cambios.'}} roomId={room} wallColor={wallColors[room]} floorColor={floorColors[room]} decorations={decorations[room]} placingDecor={placingDecor} onPlaceDecor={slot=>{if(placingDecor){setDecorations(p=>({...p,[room]:{...p[room],[placingDecor]:slot}}));setPlacingDecor(undefined);}}} catName={catName.trim()||undefined} products={roomProducts} selectedId={selected?.id} greeting={greeting} onPet={() => setGreeting(value => value + 1)} balance={balance} paused={!active} onSelect={id => { setSelectedId(id); setFilter(products.find(product => product.id === id)?.bought ? 'bought' : 'pending'); }}/></Suspense>}
           </div>
           <div className="room-caption"><span>{selected ? `Seleccionado: ${selected.name}` : 'Toca un objeto para seleccionarlo'}</span><span><i/>+ = por comprar</span></div>
           <button className="text-action" disabled={!homeReady || saving} onClick={() => void saveHome()}>{saving ? 'Guardando…' : 'Guardar hogar'}</button>
@@ -178,6 +200,13 @@ export default function HomeLive({ userId, onManageProducts, onOpenExpenses, act
       <p className="home-notice" role="status">{notice}</p>
       <p className="opening-balance-note">Saldo, ingresos y gastos se guardan en tu cuenta.</p>
     </main>}</HomeAtmosphere>
+    <dialog ref={furnitureDialogRef} className="home-dialog" onClose={()=>setFurnitureDialog(false)} onCancel={()=>setFurnitureDialog(false)}>
+      <form onSubmit={chooseFurniture}>
+        <p className="eyebrow">YA ES TUYO</p><h2>Un lugar para tu mueble</h2>
+        {bought.length ? <><label>Mueble comprado<select required value={furnitureId} onChange={event=>setFurnitureId(event.target.value)}>{bought.map(product=><option key={product.id} value={product.id}>{product.name}</option>)}</select></label><label>Habitación<select value={furnitureRoom} onChange={event=>setFurnitureRoom(event.target.value as RoomId)}>{ROOMS.map(entry=><option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></label><p>Elige dónde ponerlo tocando el suelo. Moverlo no registra otro gasto.</p><Button type="submit">Colocar en la habitación</Button></> : <><p>Todavía no tienes muebles marcados como comprados. Registra los que ya tienes en tu catálogo.</p><Button type="button" onClick={()=>{setFurnitureDialog(false);onManageProducts();}}>Registrar un mueble</Button></>}
+        <button className="cancel-action" type="button" onClick={()=>setFurnitureDialog(false)}>Cancelar</button>
+      </form>
+    </dialog>
     <dialog ref={balanceDialogRef} className="home-dialog" onClose={() => setBalanceDialog(false)} onCancel={event => { event.preventDefault(); setBalanceDialog(false); }}>
       <form onSubmit={saveOpeningBalance}><p className="eyebrow">SALDO DE PARTIDA</p><h2>¿Con cuánto empiezas?</h2><p>Este monto se suma a tus ingresos y se resta de tus gastos para mostrar el saldo disponible.</p><label>Saldo inicial (USD)<input autoFocus required type="number" min="0" max="9999999" step="0.01" inputMode="decimal" value={balanceDraft} onChange={event => setBalanceDraft(event.target.value)}/></label><Button className="primary-action" type="submit">Guardar saldo inicial</Button><button className="cancel-action" type="button" onClick={() => setBalanceDialog(false)}>Cancelar</button></form>
     </dialog>

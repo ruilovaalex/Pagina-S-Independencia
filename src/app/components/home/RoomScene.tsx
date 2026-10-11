@@ -115,7 +115,7 @@ function arch(width: number, bottom: number, spring: number, center = -ROOM_WIND
   shape.lineTo(center-radius,bottom);
   return shape;
 }
-function Architecture({ r, warm, wallColor, floorColor, roomId='living' }: { r: Resources; warm: boolean; wallColor?: string; floorColor?:string; roomId?:RoomId }) {
+function Architecture({ r, warm, wallColor, floorColor, roomId='living' }: { r: Resources; warm: boolean; wallColor?: string; floorColor?:string; roomId?:RoomId; placementRequest?:number }) {
   const wallMaterial = useMemo(() => {
     const material = r.materials.plasterPink.clone();
     if (wallColor) material.color.set(wallColor);
@@ -556,7 +556,7 @@ function CameraFit({ reset,zoom }: { reset:number; zoom:ZoomRequest }) {
   }, [zoom.serial,camera,invalidate]);
   return null;
 }
-interface SceneProps { products:Product[]; selectedId?:string; onSelect:(id:string) => void; greeting:number; onPet:() => void; storageKey?:string; balance?:number; goalReached?:boolean; goalIds?:string[]; paused?:boolean; layoutSource?:LayoutSource; wallColor?:string; floorColor?:string; decorations?:Record<string,number>; placingDecor?:string; onPlaceDecor?:(slot:number)=>void; catName?:string; roomId?:RoomId }
+interface SceneProps { products:Product[]; selectedId?:string; onSelect:(id:string) => void; greeting:number; onPet:() => void; storageKey?:string; balance?:number; goalReached?:boolean; goalIds?:string[]; paused?:boolean; layoutSource?:LayoutSource; wallColor?:string; floorColor?:string; decorations?:Record<string,number>; placingDecor?:string; onPlaceDecor?:(slot:number)=>void; catName?:string; roomId?:RoomId; placementRequest?:number }
 function catSpace(items:RoomItem[],layout:RoomLayout):[number,number] {
   const candidates:[number,number][] = [[-.05,1.23],[.1,ROOM_BOUNDS.halfDepth-.65],[-1.03,ROOM_BOUNDS.halfDepth-.65],[.2,.5],[ROOM_BOUNDS.halfWidth-.75,ROOM_BOUNDS.halfDepth-.65],[-1.55,.3]];
   const free = (x:number,z:number) => Math.abs(x)+.52 <= ROOM_BOUNDS.halfWidth && Math.abs(z)+.45 <= ROOM_BOUNDS.halfDepth && ROOM_OBSTACLES.every(obstacle => Math.abs(x-obstacle.x) > obstacle.width/2+.52 || Math.abs(z-obstacle.z) > obstacle.depth/2+.45) && items.every(item => {
@@ -657,6 +657,7 @@ export default function RoomScene(props: SceneProps) {
   const [warm,setWarm] = useState(true);
   const [rotating,setRotating] = useState(false);
   const [editing,setEditing] = useState(false);
+  useEffect(()=>{if(props.placementRequest){setEditing(true);setRotating(false);}},[props.placementRequest]);
   const [reset,setReset] = useState(0);
   const [zoom,setZoom] = useState<ZoomRequest>({serial:0,factor:1});
   const [catAction,setCatAction] = useState<CatAction>({kind:'idle',serial:0});

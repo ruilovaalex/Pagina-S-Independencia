@@ -86,7 +86,7 @@
 .home-home-view .home-heading::after { right:-20px; top:-60px; }
 .nature-clipping { position:relative; width:75%; margin:28px 0 -64px 22%; padding:8px 8px 12px; background:#fff7df; color:#263e32; box-shadow:0 8px 18px #172c2926; transform:rotate(-3deg); }
 .nature-clipping img { width:100%; height:150px; display:block; object-fit:cover; }
-.nature-clipping.personal-photo img { height:auto; aspect-ratio:3 / 4; object-fit:contain; }
+.nature-clipping.personal-photo img { height:auto; aspect-ratio:auto; object-fit:contain; }
 .nature-clipping figcaption { font-size:12px; padding:9px 4px 0; }
 .nature-clipping::before { content:''; position:absolute; width:70px; height:18px; left:35%; top:-7px; background:#e9b7c6; transform:rotate(4deg); }
 .home-home-view .money-overview { padding-top:20px; }
@@ -233,3 +233,5 @@
  .home-home-view .home-heading h1 { font-size:48px; }
  .hero-flower-row { width:calc(100% + 24px); margin-left:-12px; }
 }
+.room-add-furniture { display:inline-flex; align-items:center; gap:8px; margin:12px 0; padding:8px 0; border-bottom:1px solid currentColor; }
+.home-dialog select { width:100%; min-height:44px; padding:10px; color:inherit; background:var(--home-cream,#f7f2dd); border:1px solid currentColor; }
